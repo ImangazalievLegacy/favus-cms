@@ -114,7 +114,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $user->save();
 	}
 
-	public static function generateHash($email, $notActive = false)
+	public static function findByEmail($email)
 	{
 		$data = ['email' => $email];
 
@@ -131,27 +131,28 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			throw new InvalidDataException('Invalid Data', $validator->errors());
 		}
 
-		if ($notActive)
-		{
-			$user = User::where('email', '=', $email)->where('active', '=', 0);
-		}
-		else
-		{
-			$user = User::where('email', '=', $email);
-		}
+		$user = User::where('email', '=', $email)->first();
 
-		if ($user->count() == 0)
+		if ($user === null)
 		{
 			throw new NotFoundException('Not Found');
 		}
 
-		$user = $user->first();
+		return $user;
+	}
+
+	public function generateHash($notActive = true)
+	{
+		if (($this->active == 1) and $notActive)
+		{
+			throw new NotFoundException('Not Found');
+		}
 
 		$activationCode = str_random(32);
 
-		$user->hash = $activationCode;
+		$this->hash = $activationCode;
 
-		if ($user->save())
+		if ($this->save())
 		{
 			return $activationCode;
 		}

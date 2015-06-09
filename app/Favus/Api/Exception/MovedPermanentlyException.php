@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\Api\Exception;
+namespace Favus\Api\Exception;
 
 class MovedPermanentlyException extends ApiException
 {

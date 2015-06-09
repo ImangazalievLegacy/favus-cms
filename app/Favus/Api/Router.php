@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\Api;
+namespace Favus\Api;
 
 use Closure;
 use Illuminate\Http\Request;

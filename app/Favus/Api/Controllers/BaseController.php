@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\Api\Controllers;
+namespace Favus\Api\Controllers;
 
 use Illuminate\Routing\Controller;
 

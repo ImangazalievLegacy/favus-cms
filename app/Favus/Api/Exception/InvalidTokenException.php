@@ -1,8 +1,8 @@
 <?php
 
-namespace Shop\Api\Exception;
+namespace Favus\Api\Exception;
 
-class InvalidTokenException extends UnauthorizedException
+class InvalidTokenException extends BadRequestException
 {
 
 }

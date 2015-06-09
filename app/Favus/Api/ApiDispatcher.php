@@ -1,13 +1,13 @@
 <?php
 
-namespace Shop\Api;
+namespace Favus\Api;
 
-use Shop\Api\Exception;
+use Favus\Api\Exception;
 
 class ApiDispatcher
 {
 	/**
-	 * @var Shop\Api\Router;
+	 * @var Favus\Api\Router;
 	 */
 	protected $router;
 	
@@ -40,7 +40,7 @@ class ApiDispatcher
 		else
 		{
 			//для приложения
-			return true;
+			throw new Exception\InvalidTokenException;
 		}
 	}
 
@@ -78,7 +78,7 @@ class ApiDispatcher
 
 		} catch (\Exception $e) {
 
-			$response = Response::error(500, 'Internal Server Error.');
+			$response = Response::error(500, 'Internal Server Error.', $e->getMessage());
 
 		} 
 

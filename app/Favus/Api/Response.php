@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\Api;
+namespace Favus\Api;
 
 use Exception\ApiException as Exception;
 
@@ -48,7 +48,7 @@ class Response extends \Illuminate\Http\Response {
 
 		if ($description !== null)
 		{
-			$data['description'] = $description;
+			$data['error']['description'] = $description;
 		}
 
 		$response = new static($data, $code, true);

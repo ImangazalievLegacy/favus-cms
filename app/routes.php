@@ -136,11 +136,47 @@ Route::group(array('prefix' => 'catalog'), function()
 
 	));
 
-	Route::get('/{path?}', array(
+	Route::get('/{path}', array(
 
 		'as' => 'catalog.category',
 		'uses' => 'CatalogController@getCategoryIndex'
 
 	))->where('path', '.*');
 
+});
+
+Route::group(array('prefix' => 'item'), function()
+{
+
+	Route::get('/', array(
+
+		'as' => 'products.index',
+		'uses' => 'ProductController@getIndex'
+
+	));
+
+	Route::get('/{url}', array(
+
+		'as' => 'product.show',
+		'uses' => 'ProductController@getShowProduct'
+
+	));
+
+});
+
+Route::group(array('prefix' => 'cart'), function()
+{
+
+	Route::get('/', array(
+
+		'as' => 'cart.index',
+		'uses' => 'CartController@getIndex'
+
+	));
+
+});
+
+Route::group(array('prefix' => 'api'), function()
+{
+	Route::any('/{path}', 'ApiController@callMethod')->where('path', '.*');
 });

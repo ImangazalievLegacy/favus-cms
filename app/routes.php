@@ -189,3 +189,15 @@ Route::group(array('prefix' => 'api'), function()
 {
 	Route::any('/{path}', 'ApiController@callMethod')->where('path', '.*');
 });
+
+Route::group(array('prefix' => 'admin'), function()
+{
+
+	Route::get('/', array(
+
+		'as' => 'admin.index',
+		'uses' => 'AdminController@getIndex'
+
+	));
+
+});

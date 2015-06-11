@@ -10,11 +10,11 @@ class Product extends Eloquent {
 	{
 		if (is_array($id))
 		{
-			return Product::whereIn('category_id', $id)->get();
+			return Product::whereIn('category_id', $id)->paginate(5);
 		}
 		else
 		{
-			return Product::where('category_id', '=', $id)->get();
+			return Product::where('category_id', '=', $id)->paginate(5);
 		}
 	}
 

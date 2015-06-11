@@ -18,4 +18,6 @@
 
 	@endif
 
+	{{ $products->links() }}
+
 @stop

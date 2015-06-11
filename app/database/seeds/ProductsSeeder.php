@@ -16,7 +16,7 @@ class ProductsSeeder extends Seeder {
 		$minCategoryId = Category::limit(1)->get()->first()->id;
 		$maxCategoryId = Category::orderBy('id', 'desc')->limit(1)->get()->first()->id;
 
-		for ($i=0; $i < 15; $i++)
+		for ($i=0; $i < 50; $i++)
 		{ 
 
 			$currencies = Currency::getCodes();

@@ -5,7 +5,7 @@ class CatalogController extends BaseController {
 
 	public function getIndex()
 	{
-		$products = Product::all();
+		$products = Product::paginate(5);
 
 		return View::make('catalog.index')->with('products', $products);
 	}

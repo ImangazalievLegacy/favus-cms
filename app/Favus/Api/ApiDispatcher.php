@@ -3,23 +3,23 @@
 namespace Favus\Api;
 
 use Favus\Api\Exception;
+use Favus\Api\Facades\Router as Router;
+use Favus\Api\Http\Response as Response;
+use \Request as Request;
 
 class ApiDispatcher
 {
-	/**
-	 * @var Favus\Api\Router;
-	 */
-	protected $router;
-	
 	function __construct()
 	{
 		$dispatcher = new \Illuminate\Events\Dispatcher();
 
-		$router = new Router($dispatcher);
+		$router = new Http\Router($dispatcher);
 
 		$prefix = __NAMESPACE__ . '\\Controllers\\';
 
 		$router->setPrefix($prefix);
+
+		Router::setInstance($router);
 
 		require __DIR__ . '/' . 'routes.php';
 
@@ -52,11 +52,12 @@ class ApiDispatcher
 
 		$_SERVER['REQUEST_URI'] = $path;
 
-        $request = \Request::createFromGlobals();
+        $request = Request::createFromGlobals();
 
 		try {
 			
-			$content = $this->router->dispatch($request);
+			//$content = $this->router->dispatch($request);
+			$content = Router::dispatch($request);
 
 			if ($content === null)
 			{

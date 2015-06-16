@@ -1,6 +1,6 @@
 <?php
 
-namespace Favus\Api;
+namespace Favus\Api\Http;
 
 use Exception\ApiException as Exception;
 

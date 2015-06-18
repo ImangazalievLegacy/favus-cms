@@ -31,19 +31,6 @@ class CartController extends BaseController
 	{
 		$data = Input::all();
 
-		$rules = array(
-
-			'id' => 'required|numeric',
-
-		);
-
-		$validator = Validator::make($data, $rules);
-
-		if ($validator->fails()) 
-		{
-			throw new Exception\InvalidDataException();
-		}
-
 		$id = Input::get('id');
 
 		Cart::delete($id);

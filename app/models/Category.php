@@ -1,10 +1,12 @@
 <?php
 
+use Illuminate\Support\MessageBag;
+
 class Category extends Tree {
 
 	protected $table = 'categories';
 
-	protected $fillable = array('title', 'parent_id', 'level', 'position');
+	protected $fillable = array('title', 'url', 'parent_id', 'level', 'position');
 
 	public static function getAll()
 	{
@@ -25,11 +27,32 @@ class Category extends Tree {
 
 	public function addChild($data)
 	{
+		Category::validate($data);
+
+		return parent::addChild($data);
+	}
+
+	public static function add($parentId, $data)
+	{
+		Category::validate($data);
+
+		$category = Category::find($parentId);
+
+		if ($category === null)
+		{
+			throw new NotFoundException("Category with id {$parentId} not found");
+		}
+		
+		return $category->addSub($data['title'], $data['url']);
+	}
+
+	public static function destroy($id)
+	{
+		$data = ['id' => $id];
+
 		$rules = array(
 
-			'title'     => 'required|max:256|min:3',
-			'url'       => 'required|max:512|min:2|unique:categories',
-			'parent_id' => 'required',
+			'id' => 'required|numeric',
 
 		);
 
@@ -37,10 +60,17 @@ class Category extends Tree {
 
 		if ($validator->fails()) 
 		{
-			throw new InvalidDataException('Invalid Data', $validator->errors());
+			throw new InvalidDataException('Invalid ID', $validator->errors());
 		}
 
-		return parent::addChild($data);
+		$category = self::find($id);
+
+		if ($category === null)
+		{
+			throw new NotFoundException("Category with id {$id} not found");
+		}
+
+		return (bool) $category->deleteNode();
 	}
 
 	public static function getByPath($path, $delimiter = '/')
@@ -61,7 +91,6 @@ class Category extends Tree {
 
 			if ($category->level == $level+1)
 			{
-
 				if ($category->url == $segments[$level])
 				{
 					$level++;
@@ -72,9 +101,7 @@ class Category extends Tree {
 						break;
 					}
 				}
-
 			}
-
 		}
 
 		return $result;
@@ -90,6 +117,81 @@ class Category extends Tree {
 		$params = array('title' => $title, 'url' => $url);
 
 		return $this->addChild($params);
+	}
+
+	public static function validate($data, $exclusion = null)
+	{
+		$categoryIds = Category::lists('id');
+		$categoryIds = implode(',', $categoryIds);
+
+		$rules = array(
+
+			'title'     => 'required|min:2|max:256',
+			'url'       => 'required|min:2|max:512',
+			'parent_id' => 'required|in:' . $categoryIds,
+
+		);
+
+		$validator = Validator::make($data, $rules);
+
+		if ($validator->fails()) 
+		{
+			throw new InvalidDataException('Invalid Data', $validator->errors());
+		}
+
+		if (is_numeric($exclusion))
+		{
+			$count = self::where('parent_id', $data['parent_id'])->where('url', $data['url'])->whereNotIn('id', [$exclusion])->count();
+		}
+		else
+		{
+			$count = self::where('parent_id', $data['parent_id'])->where('url', $data['url'])->count();
+		}		
+
+		if ($count > 0)
+		{
+			$error = new MessageBag();
+
+			$message = Lang::get('validation.unique');
+			$message = str_replace(':attribute', 'URL', $message);
+
+			$error->add('url', $message);
+
+			throw new InvalidDataException('Invalid Data', $error);
+		}
+	}
+
+	public static function change($id, $data)
+	{
+		$category = Category::find($id);
+
+		if ($category === null)
+		{
+			throw new NotFoundException('Category not found');
+		}
+
+		if ($category->url == $data['url'])
+		{
+			Category::validate($data, $id);
+		}
+		else
+		{
+			Category::validate($data);
+		}
+
+		if (($category->parent_id != $data['parent_id']))
+		{
+			$category->move($data['parent_id']);
+		}
+
+		$updated = $category->update(array(
+			
+			'title'     => $data['title'],
+			'url'       => $data['url'],
+			
+		));
+
+		return $updated;
 	}
 
 }

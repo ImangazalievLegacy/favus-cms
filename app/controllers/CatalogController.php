@@ -40,7 +40,14 @@ class CatalogController extends BaseController {
 			}
 		}
 
-		return View::make('catalog.category')->with('products', $products);
+		$data = array(
+			
+			'category' => $category, 
+			'products' => $products, 
+
+		);
+
+		return View::make('catalog.category')->with($data);
 	}
 
 	public function postAddCategory()

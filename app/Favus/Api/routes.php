@@ -14,3 +14,9 @@ Router::group(array('prefix' => 'product'), function() {
 	Router::any('delete', 'ProductController@deleteProduct');
 
 });
+
+Router::group(array('prefix' => 'category'), function() {
+
+	Router::any('delete', 'CatalogController@deleteCategory');
+
+});

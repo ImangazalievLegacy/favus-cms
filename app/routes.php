@@ -185,6 +185,26 @@ Route::group(array('prefix' => 'cart'), function()
 
 });
 
+Route::group(array('prefix' => 'order'), function()
+{
+	Route::get('/', array(
+
+		'as' => 'order.make',
+		'uses' => 'OrderController@getMakeOrder'
+
+	));
+
+	Route::group(array('before' => 'csrf'), function(){
+
+		Route::post('make', array(
+
+			'as' => 'order.make-post',
+			'uses' => 'OrderController@postMakeOrder'
+
+		));
+	});
+});
+
 Route::group(array('prefix' => 'api'), function()
 {
 	Route::any('/{path}', 'ApiController@callMethod')->where('path', '.*');
@@ -200,4 +220,106 @@ Route::group(array('prefix' => 'admin'), function()
 
 	));
 
+	Route::group(array('prefix' => 'categories'), function()
+	{
+		Route::get('/', array(
+
+			'as' => 'admin.categories',
+			'uses' => 'AdminController@getCategories'
+
+		));
+
+		Route::get('/add', array(
+
+			'as' => 'admin.categories.add',
+			'uses' => 'AdminController@getAddCategory'
+
+		));
+
+		Route::get('/edit/{id}', array(
+
+			'as' => 'admin.categories.edit',
+			'uses' => 'AdminController@getEditCategory'
+
+		));
+
+		Route::group(array('before' => 'csrf'), function(){
+
+			Route::post('/add', array(
+
+				'as' => 'admin.categories.add-post',
+				'uses' => 'AdminController@postAddCategory'
+
+			));
+
+			Route::post('/edit/{id}', array(
+
+				'as' => 'admin.categories.edit-post',
+				'uses' => 'AdminController@postEditCategory'
+
+			));
+		});
+	});
+
+	Route::group(array('prefix' => 'products'), function()
+	{
+		Route::get('/', array(
+
+			'as' => 'admin.products',
+			'uses' => 'AdminController@getProducts'
+
+		));
+
+		Route::get('/add', array(
+
+			'as' => 'admin.products.add',
+			'uses' => 'AdminController@getAddProduct'
+
+		));
+
+		Route::get('/edit/{id}', array(
+
+			'as' => 'admin.products.edit',
+			'uses' => 'AdminController@getEditProduct'
+
+		));
+
+		Route::group(array('before' => 'csrf'), function(){
+
+			Route::post('/add', array(
+
+				'as' => 'admin.products.add-post',
+				'uses' => 'AdminController@postAddProduct'
+
+			));
+
+			Route::post('/edit/{id}', array(
+
+				'as' => 'admin.products.edit-post',
+				'uses' => 'AdminController@postEditProduct'
+
+			));
+		});
+	});
+
+	Route::group(array('prefix' => 'users'), function()
+	{
+		Route::get('/', array(
+
+			'as' => 'admin.users',
+			'uses' => 'AdminController@getUsers'
+
+		));
+	});
+
+	Route::group(array('prefix' => 'orders'), function()
+	{
+
+		Route::get('/', array(
+
+			'as' => 'admin.orders',
+			'uses' => 'AdminController@getOrders'
+
+		));
+	});
 });

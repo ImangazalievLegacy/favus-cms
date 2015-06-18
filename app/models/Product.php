@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\MessageBag;
+
 class Product extends Eloquent {
 
 	protected $table = 'products';
@@ -23,18 +25,20 @@ class Product extends Eloquent {
 		return Product::where('url', '=', $url)->limit(1)->get()->first();
 	}
 
-	public function add($data)
+	public static function validate($data, $exclusion = null)
 	{
 		$currencies = Currency::getCodes();
-
 		$currencies = implode(',', $currencies);
+
+		$categoryIds = Category::lists('id');
+		$categoryIds = implode(',', $categoryIds);
 
 		$rules = array(
 
-			'title'          => 'required|max:256|min:10',
-			'url'            => 'required|max:512|min:10|unique:products',
+			'title'          => 'required|min:5|max:256',
+			'url'            => 'required|min:5|max:512',
 			'description'    => 'required|min:10',
-			'category_id'    => 'required',
+			'category_id'    => 'required|in:' . $categoryIds,
 			'price'          => 'required|numeric',
 			'old_price'      => 'numeric',
 			'article_number' => 'required',
@@ -48,6 +52,32 @@ class Product extends Eloquent {
 		{
 			throw new InvalidDataException('Invalid Data', $validator->errors());
 		}
+
+		if (is_numeric($exclusion))
+		{
+			$count = self::where('category_id', $data['category_id'])->where('url', $data['url'])->whereNotIn('id', [$exclusion])->count();
+		}
+		else
+		{
+			$count = self::where('category_id', $data['category_id'])->where('url', $data['url'])->count();
+		}		
+
+		if ($count > 0)
+		{
+			$error = new MessageBag();
+
+			$message = Lang::get('validation.unique');
+			$message = str_replace(':attribute', 'URL', $message);
+
+			$error->add('url', $message);
+
+			throw new InvalidDataException('Invalid Data', $error);
+		}
+	}
+
+	public static function add($data)
+	{
+		Product::validate($data);
 
 		if (!array_key_exists('old_price', $data))
 		{
@@ -70,4 +100,69 @@ class Product extends Eloquent {
 		return $product;
 	}
 
+	public static function destroy($id)
+	{
+		$data = ['id' => $id];
+
+		$rules = array(
+
+			'id' => 'required|numeric',
+
+		);
+
+		$validator = Validator::make($data, $rules);
+
+		if ($validator->fails()) 
+		{
+			throw new InvalidDataException('Invalid ID', $validator->errors());
+		}
+
+		$product = Product::find($id);
+
+		if ($product === null)
+		{
+			throw new NotFoundException("Product with id {$id} not found");
+		}
+		
+		return (bool) $product->delete();
+	}
+
+	public static function change($id, $data)
+	{
+		$product = Product::find($id);
+
+		if ($product === null)
+		{
+			throw new NotFoundException('Product not found');
+		}
+
+		if ($product->url == $data['url'])
+		{
+			Product::validate($data, $id);
+		}
+		else
+		{
+			Product::validate($data);
+		}
+
+		if (!array_key_exists('old_price', $data))
+		{
+			$data['old_price'] = null;
+		}
+
+		$updated = $product->update(array(
+			
+			'title'          => $data['title'],
+			'url'            => $data['url'],
+			'description'    => $data['description'],
+			'category_id'    => $data['category_id'],
+			'price'          => $data['price'],
+			'old_price'      => $data['old_price'],
+			'article_number' => $data['article_number'],
+			'currency'       => $data['currency'],
+			
+		));
+
+		return $updated;
+	}
 }

@@ -24,10 +24,8 @@ class Cart {
 		return $products;
 	}
 
-	public function add($id, $count = 1)
+	public static function validate($data)
 	{
-		$data = ['id' => $id];
-
 		$rules = array(
 
 			'id' => 'required|numeric',
@@ -40,7 +38,14 @@ class Cart {
 		{
 			throw new Exception\InvalidDataException('Invalid Data', $validator->errors());
 		}
+	}
 
+	public function add($id, $count = 1)
+	{
+		$data = ['id' => $id];
+
+		Cart::validate($data);
+		
 		$product = \Product::find($id);
 
 		if ($product === null) 
@@ -66,6 +71,10 @@ class Cart {
 
 	public function delete($id)
 	{
+		$data = ['id' => $id];
+
+		Cart::validate($data);
+		
 		Session::forget($this->sessionKey . '.' . $id);
 	}
 

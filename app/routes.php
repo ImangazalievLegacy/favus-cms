@@ -36,42 +36,42 @@ Route::group(array('prefix' => 'account'), function()
 
 		Route::get('create', array(
 
-			'as' => 'account.create',
+			'as'   => 'account.create',
 			'uses' => 'AccountController@getCreate'
 
 		));
 
 		Route::get('login', array(
 
-			'as' => 'account.login',
+			'as'   => 'account.login',
 			'uses' => 'AccountController@getLogin'
 
 		));
 
 		Route::get('activate/{code}', array(
 
-			'as' => 'account.activate',
+			'as'   => 'account.activate',
 			'uses' => 'AccountController@getActivate'
 
 		))->where('code', '[a-zA-Z0-9]+');
 
 		Route::get('forgot-password', array(
 
-			'as' => 'account.forgot.password',
+			'as'   => 'account.forgot.password',
 			'uses' => 'AccountController@getForgotPassword'
 
 		));
 
 		Route::get('password/reset/{code}', array(
 
-			'as' => 'account.password.reset',
+			'as'   => 'account.password.reset',
 			'uses' => 'AccountController@getResetPassword'
 
 		));
 
 		Route::get('resend-activation-code', array(
 
-			'as' => 'resend.activation.code',
+			'as'   => 'resend.activation.code',
 			'uses' => 'AccountController@getResendCode'
 
 		));
@@ -81,35 +81,35 @@ Route::group(array('prefix' => 'account'), function()
 
 			Route::post('create', array(
 
-				'as' => 'account.create-post',
+				'as'   => 'account.create-post',
 				'uses' => 'AccountController@postCreate'
 
 			));
 
 			Route::post('login', array(
 
-				'as' => 'account.login-post',
+				'as'   => 'account.login-post',
 				'uses' => 'AccountController@postLogin'
 
 			));
 
 			Route::post('forgot-password', array(
 
-				'as' => 'account.forgot.password-post',
+				'as'   => 'account.forgot.password-post',
 				'uses' => 'AccountController@postForgotPassword'
 
 			));
 
 			Route::post('password/reset', array(
 
-				'as' => 'account.password.reset-post',
+				'as'   => 'account.password.reset-post',
 				'uses' => 'AccountController@postResetPassword'
 
 			));
 
 			Route::post('resend-activation-code', array(
 
-				'as' => 'resend.activation.code-post',
+				'as'   => 'resend.activation.code-post',
 				'uses' => 'AccountController@postResendCode'
 
 			));
@@ -126,7 +126,7 @@ Route::group(array('prefix' => 'account'), function()
 
 		Route::get('logout', array(
 
-			'as' => 'account.logout',
+			'as'   => 'account.logout',
 			'uses' => 'AccountController@getLogOut'
 
 		));
@@ -140,14 +140,14 @@ Route::group(array('prefix' => 'catalog'), function()
 
 	Route::get('/', array(
 
-		'as' => 'catalog.index',
+		'as'   => 'catalog.index',
 		'uses' => 'CatalogController@getIndex'
 
 	));
 
 	Route::get('/{path}', array(
 
-		'as' => 'catalog.category',
+		'as'   => 'catalog.category',
 		'uses' => 'CatalogController@getCategoryIndex'
 
 	))->where('path', '.*');
@@ -159,14 +159,14 @@ Route::group(array('prefix' => 'item'), function()
 
 	Route::get('/', array(
 
-		'as' => 'products.index',
+		'as'   => 'products.index',
 		'uses' => 'ProductController@getIndex'
 
 	));
 
 	Route::get('/{url}', array(
 
-		'as' => 'product.show',
+		'as'   => 'product.show',
 		'uses' => 'ProductController@getShowProduct'
 
 	));
@@ -178,14 +178,153 @@ Route::group(array('prefix' => 'cart'), function()
 
 	Route::get('/', array(
 
-		'as' => 'cart.index',
+		'as'   => 'cart.index',
 		'uses' => 'CartController@getIndex'
 
 	));
 
 });
 
+Route::group(array('prefix' => 'order'), function()
+{
+	Route::get('/', array(
+
+		'as'   => 'order.make',
+		'uses' => 'OrderController@getMakeOrder'
+
+	));
+
+	Route::group(array('before' => 'csrf'), function(){
+
+		Route::post('make', array(
+
+			'as'   => 'order.make-post',
+			'uses' => 'OrderController@postMakeOrder'
+
+		));
+	});
+});
+
 Route::group(array('prefix' => 'api'), function()
 {
-	Route::any('/{path}', 'ApiController@callMethod')->where('path', '.*');
+	Route::any('/{path}', array(
+
+		'as'   => 'api.call-method',
+		'uses' => 'ApiController@callMethod'
+
+	))->where('path', '.*');
+});
+
+Route::group(array('prefix' => 'admin'), function()
+{
+
+	Route::get('/', array(
+
+		'as'   => 'admin.index',
+		'uses' => 'AdminController@getIndex'
+
+	));
+
+	Route::group(array('prefix' => 'categories'), function()
+	{
+		Route::get('/', array(
+
+			'as'   => 'admin.categories',
+			'uses' => 'AdminController@getCategories'
+
+		));
+
+		Route::get('/add', array(
+
+			'as'   => 'admin.categories.add',
+			'uses' => 'AdminController@getAddCategory'
+
+		));
+
+		Route::get('/edit/{id}', array(
+
+			'as'   => 'admin.categories.edit',
+			'uses' => 'AdminController@getEditCategory'
+
+		));
+
+		Route::group(array('before' => 'csrf'), function(){
+
+			Route::post('/add', array(
+
+				'as'   => 'admin.categories.add-post',
+				'uses' => 'AdminController@postAddCategory'
+
+			));
+
+			Route::post('/edit/{id}', array(
+
+				'as'   => 'admin.categories.edit-post',
+				'uses' => 'AdminController@postEditCategory'
+
+			));
+		});
+	});
+
+	Route::group(array('prefix' => 'products'), function()
+	{
+		Route::get('/', array(
+
+			'as'   => 'admin.products',
+			'uses' => 'AdminController@getProducts'
+
+		));
+
+		Route::get('/add', array(
+
+			'as'   => 'admin.products.add',
+			'uses' => 'AdminController@getAddProduct'
+
+		));
+
+		Route::get('/edit/{id}', array(
+
+			'as'   => 'admin.products.edit',
+			'uses' => 'AdminController@getEditProduct'
+
+		));
+
+		Route::group(array('before' => 'csrf'), function(){
+
+			Route::post('/add', array(
+
+				'as'   => 'admin.products.add-post',
+				'uses' => 'AdminController@postAddProduct'
+
+			));
+
+			Route::post('/edit/{id}', array(
+
+				'as'   => 'admin.products.edit-post',
+				'uses' => 'AdminController@postEditProduct'
+
+			));
+		});
+	});
+
+	Route::group(array('prefix' => 'users'), function()
+	{
+		Route::get('/', array(
+
+			'as'   => 'admin.users',
+			'uses' => 'AdminController@getUsers'
+
+		));
+	});
+
+	Route::group(array('prefix' => 'orders'), function()
+	{
+
+		Route::get('/', array(
+
+			'as'   => 'admin.orders',
+			'uses' => 'AdminController@getOrders'
+
+		));
+	});
 });

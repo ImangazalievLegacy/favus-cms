@@ -4,7 +4,7 @@
 
 	<h2>Корзина</h2>
 
-	@if(isset($items) && count($items)>0)
+	@if (isset($items) && count($items)>0)
 
 		<ol>
 
@@ -22,7 +22,7 @@
 
 	@if(!Cart::isEmpty())
 		<br><br>
-		<a href=""><button>Proceed to Checkout</button></a>
+		<a href="{{ URL::route('order.make') }}"><button>Proceed to Checkout</button></a>
 	@endif
 
 @stop

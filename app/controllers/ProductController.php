@@ -18,20 +18,4 @@ class ProductController extends BaseController {
 
 		return View::make('catalog.product.card')->with('product', $product);
 	}
-
-	public function postAddProduct()
-	{
-		$data = Input::all();
-
-		try {
-			Product::add($data);
-
-			return Redirect::back()->with('global', 'Product added');
-
-		} catch (InvalidDataException $e) {
-
-			return Redirect::back()->with('global', $e->getMessage())->withInput($data)->withErrors($e->getErrors());
-		}
-	}
-
 }

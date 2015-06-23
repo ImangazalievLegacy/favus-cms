@@ -22,7 +22,6 @@ class AccountController extends BaseController {
 		});
 
 		return Redirect::route('home')->with('global', 'Your account has been created! We have sent you an email to activate your account');
-
 	}
 
 	public function postLogin()

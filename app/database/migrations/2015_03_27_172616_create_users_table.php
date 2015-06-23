@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration {
 			$table->integer('active'); // флаг верификации E-mail пользователя 
 			$table->integer('blocked'); // статус пользователя (заблокирован/не заблокирован)
 
+			$table->integer('default_address_id'); // идентификатор адреса по умолчанию
+
 			$table->rememberToken();// токен для функции "Запомнить меня"
 			$table->timestamps();
 

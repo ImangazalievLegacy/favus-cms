@@ -15,8 +15,8 @@ class CreateCategoriesTable extends Migration {
 		Schema::create('categories', function($table){
 
 			$table->increments('id'); // идентификатор категории
-			$table->string('title', 30); // название категории
-			$table->string('url', 30); // URL категории (ЧПУ)
+			$table->string('title', 64); // название категории
+			$table->string('url', 128); // URL категории (ЧПУ)
 			
 			$table->integer('position'); // позиция элемента
 			$table->integer('level'); // уровень вложенности

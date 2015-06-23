@@ -4,7 +4,7 @@
 
 	<h2>Каталог</h2>
 
-	@if(isset($products) && count($products)>0)
+	@if (isset($products) && count($products)>0)
 
 		<ol>
 

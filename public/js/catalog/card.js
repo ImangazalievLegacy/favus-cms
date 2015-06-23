@@ -52,14 +52,14 @@ $( document ).ready(function() {
 
 		var id = $(this).parent('article').data('id');
 
-		addToCart(id)
+		addToCart(id);
 	});
 
 	$('#delete-product').on('click', function(){
 
 		var id = $(this).parent('article').data('id');
 
-		deleteFromCart(id)
+		deleteFromCart(id);
 	});
 
 });

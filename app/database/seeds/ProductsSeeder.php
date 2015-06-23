@@ -13,8 +13,7 @@ class ProductsSeeder extends Seeder {
 		
 		$faker = Faker\Factory::create();
 
-		$minCategoryId = Category::limit(1)->get()->first()->id;
-		$maxCategoryId = Category::orderBy('id', 'desc')->limit(1)->get()->first()->id;
+		$categoryIds = Category::lists('id');
 
 		for ($i=0; $i < 50; $i++)
 		{ 
@@ -26,7 +25,7 @@ class ProductsSeeder extends Seeder {
 				'title'          => $faker->sentence(3),
 				'description'    => $faker->paragraph(20),
 
-				'category_id'    => mt_rand($minCategoryId, $maxCategoryId),
+				'category_id'    => $categoryIds[array_rand($categoryIds)],
 				'url'            => $faker->word,
 
 				'price'          => mt_rand(100, 30000),

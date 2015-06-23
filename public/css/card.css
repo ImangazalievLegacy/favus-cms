@@ -1,0 +1,20 @@
+* {
+
+	box-sizing: border-box;
+
+}
+
+.product-image {
+
+	width: 220px;
+	height: 165px;
+
+}
+
+.product-image img {
+
+	max-width: 100%;
+	max-height: 100%;
+	margin: auto;
+
+}

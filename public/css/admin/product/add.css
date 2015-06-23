@@ -1,0 +1,14 @@
+.progress-bar {
+
+	width: 0px;
+	height: 20px;
+	margin-top: 10px;
+	background-color: #000;
+	display: none;
+
+}
+
+.progress-bar-wrap {
+
+	width: 400px;
+}

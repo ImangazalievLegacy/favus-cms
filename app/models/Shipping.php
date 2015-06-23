@@ -11,7 +11,13 @@ class Shipping extends Eloquent {
 
 	public static function getTitles() {
 
-		return Shipping::lists('title');
+		return Shipping::where('status', '=', self::STATUS_ENABLED)->lists('title');
+
+	}
+
+	public static function getIds() {
+
+		return Shipping::where('status', '=', self::STATUS_ENABLED)->lists('id');
 
 	}
 

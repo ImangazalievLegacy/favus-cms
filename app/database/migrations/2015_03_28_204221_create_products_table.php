@@ -18,6 +18,8 @@ class CreateProductsTable extends Migration {
 			$table->increments('id'); // идентификатор товара
 			$table->string('title', 256); // название товара
 			$table->text('description'); // описание товара
+			$table->text('images'); // изображения товара
+			$table->text('main_image_id'); // идентификатор главного изображения товара
 
 			$table->string('url', 512); // URL товара (ЧПУ)
 			$table->integer('category_id'); // идентификатор категории товара

@@ -24,8 +24,8 @@
 
 		</ol>
 
-	@endif
+		{{ $products->links() }}
 
-	{{ $products->links() }}
+	@endif
 
 @stop

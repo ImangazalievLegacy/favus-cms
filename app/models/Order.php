@@ -16,22 +16,22 @@ class Order extends Eloquent {
 	 */
 	protected $hidden = array();
 
-	protected $fillable = array('type', 'owner_id', 'address_id', 'fullname', 'email', 'phone_number', 'ip_address', 'product_list', 'comment', 'total', 'status', 'added_on');
+	protected $fillable = array('number', 'type', 'owner_id', 'address_id', 'fullname', 'email', 'phone_number', 'ip_address', 'product_list', 'comment', 'total', 'status', 'added_on');
 
 	public static function add($data)
 	{
-		$shippingMethods = Shipping::getTitles();
+		$shippingMethods = Shipping::getIds();
 		$paymentMethods  = ['cash', 'bank_transfer'];
 
 		$shippingMethods = implode(',', $shippingMethods);
-		$paymentMethods = implode(',', $paymentMethods);
+		$paymentMethods  = implode(',', $paymentMethods);
 
 		$rules = array(
 
-			'fullname'       => ['required', 'string', 'regex:/[^ ]* [^ ]*/'],
+			'fullname'        => ['required', 'string', 'regex:/[^ ]* [^ ]*/'],
 			'email'           => 'required|email',
 			'phone_number'    => 'required',
-			'comment'         => 'max:200',
+			'comment'         => 'max:500',
 			'shipping_method' => 'required|in:' . $shippingMethods,
 			'payment_method'  => 'required|in:' . $paymentMethods,
 			
@@ -48,5 +48,15 @@ class Order extends Eloquent {
 		$data['added_on'] = DB::raw('NOW()');
 
 		return Order::create($data);
+	}
+
+	public function isUser()
+	{
+		return $this->type == 'user';
+	}
+
+	public function isGuest()
+	{
+		return $this->type == 'guest';
 	}
 }

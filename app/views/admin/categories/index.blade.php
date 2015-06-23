@@ -24,8 +24,8 @@
 
 		</ol>
 
+		{{ $categories->links() }}
+		
 	@endif
-
-	{{ $categories->links() }}
 
 @stop

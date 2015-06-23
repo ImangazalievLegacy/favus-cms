@@ -20,3 +20,9 @@ Router::group(array('prefix' => 'category'), function() {
 	Router::any('delete', 'CatalogController@deleteCategory');
 
 });
+
+Router::group(array('prefix' => 'files'), function() {
+
+	Router::any('images/upload', 'FileController@uploadImage');
+
+});

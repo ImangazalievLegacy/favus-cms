@@ -16,6 +16,7 @@ class CreateOrdersTable extends Migration {
 		Schema::create('orders', function($table){
 
 			$table->increments('id'); // идентификатор заказа
+			$table->string('number', 32); // номер заказа
 			
 			$table->string('type'); // тип заказчика (гость/зарегистрированный пользователь)
 			$table->integer('owner_id'); // идентификатор пользователя

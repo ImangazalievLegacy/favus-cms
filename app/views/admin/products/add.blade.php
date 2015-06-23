@@ -2,11 +2,17 @@
 
 @section('title') Добавление товара @stop
 
+@section('head')
+<script src="{{ asset('/js/admin/products/upload.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('/css/admin/product/add.css') }}">
+@stop
+
+
 @section('content')
 
 	<h2>Добавление товара</h2>
 
-	<form action="{{ URL::route('admin.products.add-post') }}" method="post">
+	<form action="{{ URL::route('admin.products.add-post') }}" method="post" class="add-product">
 
 		Название:<br>
 		<input type="text" name="title" size="30" value="{{ (Input::old('title')) ? e(Input::old('title')) : '' }}">
@@ -36,6 +42,20 @@
 		@if ( $errors->has('category_id') )
 			{{ $errors->first('category_id') }}
 		@endif
+
+		<br><br>Изображение товара:<br>
+		<ul class="uploaded-images"></ul>
+		<br>
+		<input type="file" name="uploader">
+		<br>
+
+		<div class="upload-message"></div>
+
+		<button class="upload-image" data-url="{{ URL::route('api.call-method', 'files/images/upload') }}">Загрузить</button>
+
+		<div class="progress-bar-wrap">
+			<div class="progress-bar"></div>
+		</div>
 
 		<br>Описание:<br>
 		@if ( $errors->has('description') )

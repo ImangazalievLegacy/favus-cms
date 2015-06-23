@@ -13,7 +13,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	protected $hidden = array('password', 'remember_token');
 
-	protected $fillable = array('username', 'email', 'password', 'hash', 'active', 'blocked', 'role');
+	protected $fillable = array('username', 'email', 'password', 'hash', 'active', 'blocked', 'role', 'default_address_id');
 
 	public static function register($data)
 	{
@@ -160,4 +160,27 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return false;
 	}
 
+	public function isActive()
+	{
+		return $this->active == 1;
+	}
+
+	public function isBlocked()
+	{
+		return $this->blocked == 1;
+	}
+
+	public function getDefaultAddressId()
+	{
+		return $this->default_address_id;
+	}
+
+	public function setDefaultAddressId($addressId)
+	{
+		$this->default_address_id = $addressId;
+
+		$this->save();
+
+		return $this;
+	}
 }

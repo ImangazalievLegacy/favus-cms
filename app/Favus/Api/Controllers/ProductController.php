@@ -31,5 +31,3 @@ class ProductController extends BaseController
 		return $result;
 	}
 }
-
-

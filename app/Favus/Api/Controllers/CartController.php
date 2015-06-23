@@ -36,5 +36,3 @@ class CartController extends BaseController
 		Cart::delete($id);
 	}
 }
-
-

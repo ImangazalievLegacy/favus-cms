@@ -29,5 +29,3 @@ class CatalogController extends BaseController
 		}
 	}
 }
-
-

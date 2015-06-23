@@ -6,7 +6,7 @@ class Product extends Eloquent {
 
 	protected $table = 'products';
 
-	protected $fillable = array('title', 'description', 'price', 'old_price', 'url', 'category_id', 'article_number', 'currency', 'type', 'visible');
+	protected $fillable = array('title', 'description', 'images', 'main_image_id', 'price', 'old_price', 'url', 'category_id', 'article_number', 'currency', 'type', 'visible');
 
 	public static function getByCategory($id)
 	{
@@ -43,6 +43,8 @@ class Product extends Eloquent {
 			'old_price'      => 'numeric',
 			'article_number' => 'required',
 			'currency'       => 'required|in:' . $currencies,
+			'product_images' => 'array',
+			'main_image_id'  => 'numeric',
 
 		);
 
@@ -84,6 +86,15 @@ class Product extends Eloquent {
 			$data['old_price'] = null;
 		}
 
+		if (array_key_exists('product_images', $data))
+		{
+			$productImages = serialize($data['product_images']);
+		}
+		else
+		{
+			$productImages = null;
+		}
+
 		$product = Product::create(array(
 			
 			'title'          => $data['title'],
@@ -94,6 +105,8 @@ class Product extends Eloquent {
 			'old_price'      => $data['old_price'],
 			'article_number' => $data['article_number'],
 			'currency'       => $data['currency'],
+			'images'         => $productImages,
+			'main_image_id'  => $data['main_image_id'],
 			
 		));
 
@@ -164,5 +177,15 @@ class Product extends Eloquent {
 		));
 
 		return $updated;
+	}
+
+	public function hasImages()
+	{
+		return $this->images != '';
+	}
+
+	public function getImages()
+	{
+		return unserialize($this->images);
 	}
 }

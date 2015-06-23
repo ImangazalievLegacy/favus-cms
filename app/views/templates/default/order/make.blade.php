@@ -47,7 +47,7 @@
 			@if (isset($shippingMethods) && count($shippingMethods)>0)
 
 				@foreach ($shippingMethods as $shippingMethod)
-					<option value="{{ $shippingMethod->title }}">{{ $shippingMethod->title }}</option>
+					<option value="{{ $shippingMethod->id }}">{{ $shippingMethod->title }}</option>
 				@endforeach
 
 			@endif

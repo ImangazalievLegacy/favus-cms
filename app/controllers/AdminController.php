@@ -39,6 +39,8 @@ class AdminController extends BaseController {
 		$price         = Input::get('price');
 		$oldPrice      = Input::get('old_price');
 		$currency      = Input::get('currency');
+		$productImages = Input::get('product_images');
+		$mainImageId   = Input::get('main_image_id', 0);
 
 		$data = array(
 
@@ -50,6 +52,8 @@ class AdminController extends BaseController {
 			'old_price'      => $oldPrice,
 			'article_number' => $articleNumber,
 			'currency'       => $currency,
+			'product_images' => $productImages,
+			'main_image_id'  => $mainImageId,
 
 	 	);
 
@@ -223,5 +227,19 @@ class AdminController extends BaseController {
 		}
 
 		return Redirect::route('admin.categories')->with('global', 'Category edited');
+	}
+
+	public function getUsers()
+	{
+		$users = User::orderBy('id')->paginate(10);
+
+		return View::make('admin.users.index')->with('users', $users);
+	}
+
+	public function getOrders()
+	{
+		$orders = Order::orderBy('id')->paginate(10);
+
+		return View::make('admin.orders.index')->with('orders', $orders);
 	}
 }

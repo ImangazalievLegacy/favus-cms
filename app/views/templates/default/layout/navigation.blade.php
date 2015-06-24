@@ -8,7 +8,12 @@
 
 		@if (Auth::check())
 
-			<li><a href="{{ URL::route('admin.index') }}">Control Panel</a></li>
+			@if (Auth::user()->hasRole('Administrator'))
+			
+				<li><a href="{{ URL::route('admin.index') }}">Control Panel</a></li>
+			
+			@endif
+
 			<li><a href="{{ URL::route('account.logout') }}">Log Out</a></li>
 
 		@else

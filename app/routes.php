@@ -215,6 +215,8 @@ Route::group(array('prefix' => 'api'), function()
 	))->where('path', '.*');
 });
 
+Entrust::routeNeedsRole('admin', 'Administrator');
+
 Route::group(array('prefix' => 'admin'), function()
 {
 
@@ -327,4 +329,9 @@ Route::group(array('prefix' => 'admin'), function()
 
 		));
 	});
+});
+
+Route::group(array('prefix' => 'install'), function()
+{
+	Route::get('/', 'Installer@run');
 });

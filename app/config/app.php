@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Favus\Cart\CartServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Favus\Installation\InstallerServiceProvider',
 
 	),
 
@@ -192,6 +193,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Cart'            => 'Favus\Cart\Facades\Cart',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
+		'Installer'       => 'Favus\Installation\Installer',
 
 	),
 

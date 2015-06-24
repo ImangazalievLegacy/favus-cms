@@ -9,15 +9,6 @@ Route::pattern('hex', '[a-f0-9]+');
 Route::pattern('string', '[a-zA-Z0-9]+');
 Route::pattern('username', '[a-f0-9]+');
 
-/*
-* Обработчик ошибки 404
-*/
-
-App::missing(function($exception)
-{
-    return Response::view('404', array(), 404);
-});
-
 Route::get('/', array(
 
 	'as' => 'home',

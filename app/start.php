@@ -4,10 +4,10 @@
 
 	$theme = Config::get('site/general.theme', 'default');
 
-	View::addLocation(app('path') . '/views/templates/' . $theme);
+	View::addLocation(public_path('themes').'/'.$theme);
 
 	/*
-	* Обработчик ошибок
+	* Обработчики ошибок
 	*/
 
 	App::error(function(Exception $exception, $code)
@@ -24,4 +24,9 @@
 					return Response::make(View::make('error/404'), 404);
 			}
 		}
+	});
+
+	App::down(function()
+	{
+		return Response::make(View::make('error/503'), 503);
 	});

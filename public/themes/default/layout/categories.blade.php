@@ -6,7 +6,7 @@
 
 	$path = array();
 
-	foreach ($categories as $category) {
+	foreach ($categories as $category):
 
 		// полный путь категории
 		if ($category->level > 0) 
@@ -27,12 +27,10 @@
 
 		$url = URL::route('catalog.category', implode('/', $path));
 
-		$category->url;
-
 		$tab = str_repeat('• ', $category->level);
-
-		echo $tab, "<a href=\"$url\">$category->title</a>", '<br>', PHP_EOL;
-
+?>
+		{{ $tab }}<a href="{{ $url }}">{{ $category->title}}</a><br>
+<?php
 		$lastLevel = $category->level;
 
-	}
+	endforeach;

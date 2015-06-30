@@ -2,7 +2,7 @@
 
 @section('head')
 <script src="{{ URL::to('js/catalog/card.js') }}"></script>
-<link rel="stylesheet" href="{{ URL::to('css/card.css') }}">
+<link rel="stylesheet" href="{{ URL::to('css/product.css') }}">
 @stop
 
 @section('content')
@@ -21,9 +21,15 @@
 
 			@endforeach
 
+		@else
+
+			<div class="product-image">
+				<img src="{{ URL::to('images/noimage.jpg') }}" alt="">
+			</div>
+
 		@endif
 
-		<p>{{ nl2br($product->description) }}</p>
+		<p>{{ $product->description }}</p>
 		Price: <i>{{ $product->price }}</i>
 		<br>
 

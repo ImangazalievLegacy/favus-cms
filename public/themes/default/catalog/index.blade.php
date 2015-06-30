@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+<link rel="stylesheet" href="{{ URL::to('css/product.css') }}">
+@stop
+
 @section('content')
 
 	<h2>Каталог</h2>

@@ -184,4 +184,31 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 		return $this;
 	}
+
+	public static function destroy($id)
+	{
+		$data = ['id' => $id];
+
+		$rules = array(
+
+			'id' => 'required|numeric',
+
+		);
+
+		$validator = Validator::make($data, $rules);
+
+		if ($validator->fails()) 
+		{
+			throw new InvalidDataException('Invalid ID', $validator->errors());
+		}
+
+		$product = User::find($id);
+
+		if ($product === null)
+		{
+			throw new NotFoundException("User with id {$id} not found");
+		}
+		
+		return (bool) $product->delete();
+	}
 }

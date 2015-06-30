@@ -104,6 +104,8 @@ class AdminController extends BaseController {
 		$price         = Input::get('price');
 		$oldPrice      = Input::get('old_price');
 		$currency      = Input::get('currency');
+		$productImages = Input::get('product_images');
+		$mainImageId   = Input::get('main_image_id', 0);
 
 		$data = array(
 
@@ -115,6 +117,8 @@ class AdminController extends BaseController {
 			'old_price'      => $oldPrice,
 			'article_number' => $articleNumber,
 			'currency'       => $currency,
+			'product_images' => $productImages,
+			'main_image_id'  => $mainImageId,
 
 	 	);
 
@@ -177,7 +181,7 @@ class AdminController extends BaseController {
 			return Redirect::back()->with('global', $e->getMessage())->withInput($input)->withErrors($e->getErrors());
 		}
 
-		return Redirect::route('admin.categories')->with('global', 'Item added');
+		return Redirect::route('admin.categories')->with('global', 'Category added');
 	}
 
 	public function getEditCategory($id)

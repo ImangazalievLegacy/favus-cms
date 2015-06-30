@@ -26,3 +26,15 @@ Router::group(array('prefix' => 'files'), function() {
 	Router::any('images/upload', 'FileController@uploadImage');
 
 });
+
+Router::group(array('prefix' => 'user'), function() {
+
+	Router::any('delete', 'UserController@deleteUser');
+
+});
+
+Router::group(array('prefix' => 'order'), function() {
+
+	Router::any('delete', 'OrderController@deleteOrder');
+
+});

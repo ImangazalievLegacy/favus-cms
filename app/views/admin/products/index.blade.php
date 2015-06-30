@@ -2,15 +2,15 @@
 
 @section('title') Товары @stop
 
-@section('head')
+@section('footer')
 <script src="{{ URL::to('js/admin/products.js') }}"></script>
 @stop
 
 @section('content')
 
-	<h2>Товары</h2>
-
-	<a href="{{ URL::route('admin.products.add') }}">Add</a>
+	<a href="{{ URL::route('admin.products.add') }}" class="btn btn-primary">
+		<span class="fa fa-fw fa-plus" aria-hidden="true"></span>&nbsp;Добавить
+	</a>
 
 	@if (isset($products) && count($products)>0)
 

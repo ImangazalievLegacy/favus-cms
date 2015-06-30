@@ -39,12 +39,12 @@ class Product extends Eloquent {
 			'url'            => 'required|min:5|max:512',
 			'description'    => 'required|min:10',
 			'category_id'    => 'required|in:' . $categoryIds,
-			'price'          => 'required|numeric',
-			'old_price'      => 'numeric',
+			'price'          => ['required', 'regex:/[(0-9)+ ?+.?(0-9)*]+/'],
+			'old_price'      => ['regex:/[(0-9)+ ?+.?(0-9)*]+/'],
 			'article_number' => 'required',
 			'currency'       => 'required|in:' . $currencies,
 			'product_images' => 'array',
-			'main_image_id'  => 'numeric',
+			'main_image_id'  => 'required_with:product_images|numeric',
 
 		);
 
@@ -94,6 +94,9 @@ class Product extends Eloquent {
 		{
 			$productImages = null;
 		}
+
+		$data['price'] = trim(preg_replace('/\s*/', '', $data['price']));
+		$data['old_price'] = trim(preg_replace('/\s*/', '', $data['old_price']));
 
 		$product = Product::create(array(
 			
@@ -163,6 +166,18 @@ class Product extends Eloquent {
 			$data['old_price'] = null;
 		}
 
+		if (array_key_exists('product_images', $data))
+		{
+			$productImages = serialize($data['product_images']);
+		}
+		else
+		{
+			$productImages = null;
+		}
+
+		$data['price'] = trim(preg_replace('/\s*/', '', $data['price']));
+		$data['old_price'] = trim(preg_replace('/\s*/', '', $data['old_price']));
+
 		$updated = $product->update(array(
 			
 			'title'          => $data['title'],
@@ -173,6 +188,8 @@ class Product extends Eloquent {
 			'old_price'      => $data['old_price'],
 			'article_number' => $data['article_number'],
 			'currency'       => $data['currency'],
+			'images'         => $productImages,
+			'main_image_id'  => $data['main_image_id'],
 			
 		));
 
@@ -181,11 +198,21 @@ class Product extends Eloquent {
 
 	public function hasImages()
 	{
-		return $this->images != '';
+		return $this->getImages() != false;
 	}
 
 	public function getImages()
 	{
 		return unserialize($this->images);
+	}
+
+	public function getMainImageId()
+	{
+		return $this->main_image_id;
+	}
+
+	public function getMainImage()
+	{
+		return $this->getImages()[$this->getMainImageId()];
 	}
 }

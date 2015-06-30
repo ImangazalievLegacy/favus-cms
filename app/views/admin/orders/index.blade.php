@@ -3,31 +3,35 @@
 @section('title') Заказы @stop
 
 @section('head')
+<link rel="stylesheet" href="{{ asset('/css/admin/orders.css') }}">
+@stop
+
+@section('footer')
 <script src="{{ URL::to('js/admin/orders.js') }}"></script>
 @stop
 
 @section('content')
 
-	<h2>Заказы</h2>
-
 	@if (isset($orders) && count($orders)>0)
 
-		<table>
-			<thead>
-				<th>ID</th>
-				<th>Номер заказа</th>
-				<th>Полное имя</th>
-				<th>E-mail</th>
-				<th>Итого</th>
-				<th>Статус</th>
-				<th>Время добавления</th>
+		<table class="table table-hover table-responsive">
+			<tdead>
+				<td>ID</td>
+				<td>Номер заказа</td>
+				<td>Полное имя</td>
+				<td>E-mail</td>
+				<td>Статус</td>
+				<td>Время добавления</td>
+				<td colspan="2">Действия</td>
 			</tr>
 
-			@foreach ($orders as $order)
+			<tbody>
+				@foreach ($orders as $order)
 
-				@include('admin.orders.item')
+					@include('admin.orders.item')
 
-			@endforeach
+				@endforeach
+			</tbody>
 
 		</table>
 

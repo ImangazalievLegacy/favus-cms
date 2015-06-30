@@ -59,4 +59,31 @@ class Order extends Eloquent {
 	{
 		return $this->type == 'guest';
 	}
+
+	public static function destroy($id)
+	{
+		$data = ['id' => $id];
+
+		$rules = array(
+
+			'id' => 'required|numeric',
+
+		);
+
+		$validator = Validator::make($data, $rules);
+
+		if ($validator->fails()) 
+		{
+			throw new InvalidDataException('Invalid ID', $validator->errors());
+		}
+
+		$product = Order::find($id);
+
+		if ($product === null)
+		{
+			throw new NotFoundException("Order with id {$id} not found");
+		}
+		
+		return (bool) $product->delete();
+	}
 }

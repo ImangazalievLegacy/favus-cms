@@ -4,5 +4,5 @@ function apiRequest(apiMethod, data, callback)
 
 	var url = apiUrl + apiMethod;
 
-	$.post(url, data).always(callback);
+	$.post(url, data, callback);
 }

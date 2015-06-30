@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(document).ready(function() {
 
 	function deleteUser(id)
 	{
@@ -28,7 +28,7 @@ $( document ).ready(function() {
 
 		event.preventDefault();
 
-		var id = $(this).parent('tr').data('id');
+		var id = $(this).closest('tr').data('id');
 
 		deleteUser(id);
 	});

@@ -5,15 +5,23 @@
 	
 	@if ($user->isBlocked())
 		
-		<td>Заблокирован</td>
+		<td><span class="label label-danger">Заблокирован</span></td>
 	
 	@elseif ($user->isActive())
 
-		<td>Активен</td>
+		<td><span class="label label-success">Активен</span></td>
 
 	@else
 
-		<td>Неактивен</td>
+		<td><span class="label label-default">Неактивен</span></td>
 
 	@endif
+	<td>
+		<a href="" class="btn btn-default change-user">
+			<span class="fa fa-fw fa-pencil" aria-hidden="true"></span>
+		</a>
+		<a href="" class="btn btn-danger delete-user">
+			<span class="fa fa-fw fa-trash-o" aria-hidden="true"></span>
+		</a>
+	</td>
 </tr>

@@ -2,15 +2,15 @@
 
 @section('title') Категории @stop
 
-@section('head')
+@section('footer')
 <script src="{{ URL::to('js/admin/categories.js') }}"></script>
 @stop
 
 @section('content')
 
-	<h2>Категории</h2>
-
-	<a href="{{ URL::route('admin.categories.add') }}">Add</a>
+	<a href="{{ URL::route('admin.categories.add') }}" class="btn btn-primary">
+		<span class="fa fa-fw fa-plus" aria-hidden="true"></span>&nbsp;Добавить
+	</a>
 
 	@if (isset($categories) && count($categories)>0)
 

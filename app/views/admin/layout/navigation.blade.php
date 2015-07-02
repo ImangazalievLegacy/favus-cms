@@ -15,5 +15,8 @@
 		<li class="{{ Route::is('admin.users*') ? 'active' : '' }}">
 			<a href="{{ URL::route('admin.users') }}"><i class="fa fa-fw fa-user"></i> Пользователи</a>
 		</li>
+		<li class="{{ Route::is('admin.pages*') ? 'active' : '' }}">
+			<a href="{{ URL::route('admin.pages') }}"><i class="fa fa-fw fa-pencil"></i> Страницы</a>
+		</li>
 	</ul>
 </div>

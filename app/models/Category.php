@@ -150,14 +150,14 @@ class Category extends Tree {
 
 		if ($count > 0)
 		{
-			$error = new MessageBag();
+			$errors = new MessageBag();
 
 			$message = Lang::get('validation.unique');
 			$message = str_replace(':attribute', 'URL', $message);
 
-			$error->add('url', $message);
+			$errors->add('url', $message);
 
-			throw new InvalidDataException('Invalid Data', $error);
+			throw new InvalidDataException('Invalid Data', $errors);
 		}
 	}
 

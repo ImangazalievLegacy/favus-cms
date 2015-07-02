@@ -4,6 +4,7 @@ namespace Favus\Cart;
 
 use \Validator as Validator;
 use \Session as Session;
+use \Config as Config;
 
 class Cart {
 
@@ -65,7 +66,14 @@ class Cart {
 
 			$data = serialize($product);
 
-			Session::put($key, $data);
+			if (Config::get('site/cart.forever', 'true'))
+			{
+				Session::forever($key, $data);
+			}
+			else
+			{
+				Session::put($key, $data);
+			}
 		}
 	}
 

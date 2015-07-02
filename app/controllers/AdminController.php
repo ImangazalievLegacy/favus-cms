@@ -246,4 +246,28 @@ class AdminController extends BaseController {
 
 		return View::make('admin.orders.index')->with('orders', $orders);
 	}
+
+	public function getPages()
+	{
+		$pages = Page::orderBy('id')->paginate(10);
+
+		return View::make('admin.pages.index')->with('pages', $pages);
+	}
+
+	public function getAddPage()
+	{
+		return View::make('admin.pages.add');
+	}
+
+	public function getEditPage($id)
+	{
+		$page = Page::find($id);
+
+		if ($page === null)
+		{
+			return Redirect::route('admin.pages')->with('global', 'Page not found');
+		}
+
+		return View::make('admin.pages.edit')->with('page', $page);
+	}
 }

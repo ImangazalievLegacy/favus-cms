@@ -320,9 +320,62 @@ Route::group(array('prefix' => 'admin'), function()
 
 		));
 	});
+
+	Route::group(array('prefix' => 'pages'), function()
+	{
+		Route::get('/', array(
+
+			'as'   => 'admin.pages',
+			'uses' => 'AdminController@getPages'
+
+		));
+
+		Route::get('/add', array(
+
+			'as'   => 'admin.pages.add',
+			'uses' => 'AdminController@getAddPage'
+
+		));
+
+		Route::get('/edit/{id}', array(
+
+			'as'   => 'admin.pages.edit',
+			'uses' => 'AdminController@getEditPage'
+
+		));
+
+		Route::group(array('before' => 'csrf'), function(){
+
+			Route::post('/add', array(
+
+				'as'   => 'admin.pages.add-post',
+				'uses' => 'PageController@postAddPage'
+
+			));
+
+			Route::post('/edit/{id}', array(
+
+				'as'   => 'admin.pages.edit-post',
+				'uses' => 'PageController@postEditPage'
+
+			));
+		});
+	});
 });
 
 Route::group(array('prefix' => 'install'), function()
 {
 	Route::get('/', 'Installer@run');
+});
+
+Route::group(array('prefix' => 'pages'), function()
+{
+
+	Route::get('/{url}', array(
+
+		'as'   => 'page.show',
+		'uses' => 'PageController@getShowPage'
+
+	))->where('path', '.*');
+
 });

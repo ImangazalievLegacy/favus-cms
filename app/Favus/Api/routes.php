@@ -38,3 +38,9 @@ Router::group(array('prefix' => 'order'), function() {
 	Router::any('delete', 'OrderController@deleteOrder');
 
 });
+
+Router::group(array('prefix' => 'page'), function() {
+
+	Router::any('delete', 'PageController@deletePage');
+
+});

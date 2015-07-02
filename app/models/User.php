@@ -163,12 +163,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function isActive()
 	{
-		return $this->active == 1;
+		return (bool) $this->active;
 	}
 
 	public function isBlocked()
 	{
-		return $this->blocked == 1;
+		return (bool) $this->blocked;
 	}
 
 	public function getDefaultAddressId()

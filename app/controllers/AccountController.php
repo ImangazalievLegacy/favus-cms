@@ -49,7 +49,14 @@ class AccountController extends BaseController {
 
 		if ($auth)
 		{
-			return Redirect::intended('/');
+			if (Input::has('redirect'))
+			{
+				return Redirect::to(Input::get('redirect'));
+			}
+			else
+			{
+				return Redirect::intended('/');
+			}
 		}
 		else
 		{

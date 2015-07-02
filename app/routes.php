@@ -246,14 +246,14 @@ Route::group(array('prefix' => 'admin'), function()
 			Route::post('/add', array(
 
 				'as'   => 'admin.categories.add-post',
-				'uses' => 'AdminController@postAddCategory'
+				'uses' => 'CatalogController@postAddCategory'
 
 			));
 
 			Route::post('/edit/{id}', array(
 
 				'as'   => 'admin.categories.edit-post',
-				'uses' => 'AdminController@postEditCategory'
+				'uses' => 'CatalogController@postEditCategory'
 
 			));
 		});
@@ -287,14 +287,14 @@ Route::group(array('prefix' => 'admin'), function()
 			Route::post('/add', array(
 
 				'as'   => 'admin.products.add-post',
-				'uses' => 'AdminController@postAddProduct'
+				'uses' => 'ProductController@postAddProduct'
 
 			));
 
 			Route::post('/edit/{id}', array(
 
 				'as'   => 'admin.products.edit-post',
-				'uses' => 'AdminController@postEditProduct'
+				'uses' => 'ProductController@postEditProduct'
 
 			));
 		});

@@ -6,23 +6,23 @@
 
 	<form action="{{ URL::route('admin.categories.edit-post', $category->id) }}" method="post">
 
-		<div class="form-group {{ $errors->has('title') ? 'has-error' : ''}}">
+		<div class="form-group">
 			<label for="title" class="control-label">Название</label>
 			<input type="text" name="title" size="30" value="{{ (Input::old('title')) ? e(Input::old('title')) : $category->title }}" placeholder="Введите название категории" id="title" class="form-control">
 			@if ( $errors->has('title') )
-				<span class="help-block"><p>{{ $errors->first('title') }}</p></span>
+				<span class="help-block text-danger"><p>{{ $errors->first('title') }}</p></span>
 			@endif
 		</div>
 
-		<div class="form-group {{ $errors->has('url') ? 'has-error' : ''}}">
+		<div class="form-group">
 			<label for="url" class="control-label">URL</label>
 			<input type="text" name="url" size="30" value="{{ (Input::old('url')) ? e(Input::old('url')) : $category->url }}" placeholder="Введите URL категории" id="url" class="form-control">
 			@if ( $errors->has('url') )
-				<span class="help-block"><p>{{ $errors->first('url') }}</p></span>
+				<span class="help-block text-danger"><p>{{ $errors->first('url') }}</p></span>
 			@endif
 		</div>
 
-		<div class="form-group {{ $errors->has('parent_id') ? 'has-error' : ''}}">
+		<div class="form-group">
 			<label for="parent_id" class="control-label">Родительская категория</label>
 
 			<select type="text" name="parent_id" value="{{ (Input::old('parent_id')) ? e(Input::old('parent_id')) : '' }}" id="parent_id" class="form-control">
@@ -40,7 +40,7 @@
 			</select>
 
 			@if ( $errors->has('parent_id') )
-				<span class="help-block"><p>{{ $errors->first('parent_id') }}</p></span>
+				<span class="help-block text-danger"><p>{{ $errors->first('parent_id') }}</p></span>
 			@endif
 		</div>
 

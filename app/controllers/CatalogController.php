@@ -52,30 +52,57 @@ class CatalogController extends BaseController {
 
 	public function postAddCategory()
 	{
+		$title    = Input::get('title');
+		$url      = Input::get('url');
 		$parentId = Input::get('parent_id');
 
-		$parentCategory = Category::find($parentId);
+		$data = array(
 
-		if ($parentCategory === null)
-		{
-			return Redirect::back()->with('global', "Category with id $parentId not found")->withInput($data);
-		}
+			'title'     => $title,
+			'url'       => $url,
+			'parent_id' => $parentId,
 
-		$title = Input::get('title');
-		$url = Input::get('url');
+	 	);
 
-		try {
+	 	try {
 
-			$parentCategory->addSub($title, $url);
-
-			return Redirect::back()->with('global', 'Category added');
+			Category::add($parentId, $data);
 
 		} catch (InvalidDataException $e) {
 
-			$data = Input::all();
+			$input = Input::all();
 
-			return Redirect::back()->with('global', $e->getMessage())->withInput($data)->withErrors($e->getErrors());
+			return Redirect::back()->with('global', $e->getMessage())->withInput($input)->withErrors($e->getErrors());
 		}
+
+		return Redirect::route('admin.categories')->with('global', 'Category added');
 	}
 
+	public function postEditCategory($id)
+	{
+		$title    = Input::get('title');
+		$url      = Input::get('url');
+		$parentId = Input::get('parent_id');
+
+		$data = array(
+
+			'title'     => $title,
+			'url'       => $url,
+			'parent_id' => $parentId,
+
+	 	);
+
+	 	try {
+
+			Category::change($id, $data);
+
+		} catch (InvalidDataException $e) {
+
+			$input = Input::all();
+
+			return Redirect::back()->with('global', $e->getMessage())->withInput($input)->withErrors($e->getErrors());
+		}
+
+		return Redirect::route('admin.categories')->with('global', 'Category edited');
+	}
 }

@@ -1,8 +1,22 @@
-function apiRequest(apiMethod, data, callback)
+function apiRequest(apiMethod, data, successCallback, errorCallback)
 {
 	var apiUrl = 'http://favus.com/api/';
 
 	var url = apiUrl + apiMethod;
 
-	$.post(url, data, callback);
+	errorCallback = errorCallback || function (xhr) { console.log(xhr.responseText); };
+
+	//$.post(url, data, callback);
+
+	$.ajax({
+
+		"url": url,
+		type: 'POST',
+		data: data,
+
+		success: successCallback,
+		error: errorCallback
+ 
+	});
 }
+

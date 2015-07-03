@@ -108,6 +108,10 @@ class OrderController extends BaseController {
 		} catch (InvalidDataException $e) {
 
 			return Redirect::back()->with('global', $e->getMessage())->withInput($data)->withErrors($e->getErrors());
+
+		} catch (Exception $e) {
+
+			return Redirect::back()->with('global', $e->getMessage());
 		}
 
 		if ($order->save()) 

@@ -1,11 +1,17 @@
-
 <?php
 
 class CatalogController extends BaseController {
 
 	public function getIndex()
 	{
-		$products = Product::paginate(5);
+		if (Config::get('site/catalog.products.show-empty'))
+		{
+			$products = Product::where('visible', '=', true)->paginate(5);
+		}
+		else
+		{
+			$products = Product::where('visible', '=', true)->where('count', '>', 0)->orWhere('count', '=', -1)->paginate(5);
+		}
 
 		return View::make('catalog.index')->with('products', $products);
 	}

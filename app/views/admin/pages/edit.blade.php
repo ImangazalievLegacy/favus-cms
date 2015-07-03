@@ -13,7 +13,7 @@
 	<form action="{{ URL::route('admin.pages.edit-post', $page->id) }}" method="post">
 
 		<div class="form-group">
-			<label for="title" >Название</label>
+			<label for="title">Название</label>
 			<input type="text" name="title" size="30" value="{{ (Input::old('title')) ? e(Input::old('title')) : $page->title }}" placeholder="Введите название товара" id="title" class="form-control">
 			@if ( $errors->has('title') )
 				<span class="help-block text-danger"><p>{{ $errors->first('title') }}</p></span>

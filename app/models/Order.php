@@ -18,7 +18,7 @@ class Order extends Eloquent {
 
 	protected $fillable = array('number', 'type', 'owner_id', 'address_id', 'fullname', 'email', 'phone_number', 'ip_address', 'product_list', 'comment', 'total', 'status', 'added_on');
 
-	public static function add($data)
+	public static function validate($data)
 	{
 		$shippingMethods = Shipping::getIds();
 		$paymentMethods  = ['cash', 'bank_transfer'];
@@ -34,6 +34,7 @@ class Order extends Eloquent {
 			'comment'         => 'max:500',
 			'shipping_method' => 'required|in:' . $shippingMethods,
 			'payment_method'  => 'required|in:' . $paymentMethods,
+			'product_list'    => 'required|array',
 			
 		);
 
@@ -42,6 +43,22 @@ class Order extends Eloquent {
 		if ($validator->fails()) 
 		{
 			throw new InvalidDataException('Invalid Data', $validator->errors());
+		}
+	}
+
+	public static function add($data)
+	{
+		Order::validate($data);
+
+		foreach ($data['product_list'] as $product) {
+			
+			$updated = Product::where('id', $product->id)->where('count', '>=', $product->quantity)->decrement('count', $product->quantity);
+
+			if ($updated == 0)
+			{
+				throw new Exception('It is not enough goods in stock');
+			}
+
 		}
 
 		$data['product_list'] = serialize($data['product_list']);

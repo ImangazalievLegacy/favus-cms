@@ -30,6 +30,7 @@ class CreateProductsTable extends Migration {
 
 			$table->string('article_number', 32); // артикул товара
 			$table->string('type', 32); // тип товара (обычный/комплект/электронный)
+			$table->integer('count'); // количество товара
 
 			$table->boolean('visible'); // флаг видимости товара
 

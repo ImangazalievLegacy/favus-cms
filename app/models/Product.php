@@ -6,23 +6,30 @@ class Product extends Eloquent {
 
 	protected $table = 'products';
 
-	protected $fillable = array('title', 'description', 'images', 'main_image_id', 'price', 'old_price', 'url', 'category_id', 'article_number', 'currency', 'type', 'visible');
+	protected $fillable = array('title', 'description', 'images', 'main_image_id', 'price', 'old_price', 'url', 'category_id', 'article_number', 'currency', 'type', 'count', 'visible');
 
 	public static function getByCategory($id)
 	{
 		if (is_array($id))
 		{
-			return Product::whereIn('category_id', $id)->paginate(5);
+			return Product::where('visible', '=', true)->whereIn('category_id', $id)->paginate(5);
 		}
 		else
 		{
-			return Product::where('category_id', '=', $id)->paginate(5);
+			return Product::where('visible', '=', true)->where('category_id', '=', $id)->paginate(5);
 		}
 	}
 
 	public static function findByUrl($url)
 	{
-		return Product::where('url', '=', $url)->limit(1)->get()->first();
+		if (Config::get('site/catalog.products.show-empty'))
+		{
+			return Product::where('visible', '=', true)->where('url', '=', $url)->limit(1)->get()->first();
+		}
+		else
+		{
+			return Product::where('visible', '=', true)->where('url', '=', $url)->where('count', '>', 0)->orWhere('count', '=', -1)->limit(1)->get()->first();
+		}
 	}
 
 	public static function validate($data, $exclusion = null)
@@ -44,6 +51,8 @@ class Product extends Eloquent {
 			'article_number' => 'required',
 			'currency'       => 'required|in:' . $currencies,
 			'product_images' => 'array',
+			'count'          => 'required|integer',
+			'visible'        => 'required|boolean',
 			'main_image_id'  => 'required_with:product_images|numeric',
 
 		);
@@ -110,6 +119,8 @@ class Product extends Eloquent {
 			'currency'       => $data['currency'],
 			'images'         => $productImages,
 			'main_image_id'  => $data['main_image_id'],
+			'count'          => $data['count'],
+			'visible'        => $data['visible'],
 			
 		));
 
@@ -190,6 +201,8 @@ class Product extends Eloquent {
 			'currency'       => $data['currency'],
 			'images'         => $productImages,
 			'main_image_id'  => $data['main_image_id'],
+			'count'          => $data['count'],
+			'visible'        => $data['visible'],
 			
 		));
 
@@ -214,5 +227,10 @@ class Product extends Eloquent {
 	public function getMainImage()
 	{
 		return $this->getImages()[$this->getMainImageId()];
+	}
+
+	public function isVisible()
+	{
+		return (bool) $this->getAttribute('visible');
 	}
 }

@@ -32,7 +32,7 @@ class Page extends Eloquent {
 
 			'title'     => 'required|min:5|max:256',
 			'url'       => 'required|min:3|max:512',
-			'visible'   => 'boolean',
+			'visible'   => 'required|boolean',
 			'content'   => 'required|min:10',
 
 		);

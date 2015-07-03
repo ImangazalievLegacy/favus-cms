@@ -11,7 +11,7 @@ class ProductController extends BaseController {
 	{
 		$product = Product::findByUrl($productUrl);
 
-		if ($product === null)
+		if (($product === null) or (!$product->isVisible()))
 		{
 			App::abort(404);
 		}
@@ -31,6 +31,8 @@ class ProductController extends BaseController {
 		$currency      = Input::get('currency');
 		$productImages = Input::get('product_images');
 		$mainImageId   = Input::get('main_image_id', 0);
+		$count         = Input::get('count');
+		$visible       = Input::get('visible', false);
 
 		$data = array(
 
@@ -44,6 +46,8 @@ class ProductController extends BaseController {
 			'currency'       => $currency,
 			'product_images' => $productImages,
 			'main_image_id'  => $mainImageId,
+			'count'          => $count,
+			'visible'        => $visible,
 
 	 	);
 
@@ -73,6 +77,8 @@ class ProductController extends BaseController {
 		$currency      = Input::get('currency');
 		$productImages = Input::get('product_images');
 		$mainImageId   = Input::get('main_image_id', 0);
+		$count         = Input::get('count');
+		$visible       = Input::get('visible', false);
 
 		$data = array(
 
@@ -86,6 +92,8 @@ class ProductController extends BaseController {
 			'currency'       => $currency,
 			'product_images' => $productImages,
 			'main_image_id'  => $mainImageId,
+			'count'          => $count,
+			'visible'        => $visible,
 
 	 	);
 

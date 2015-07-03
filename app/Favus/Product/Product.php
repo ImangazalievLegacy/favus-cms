@@ -7,12 +7,13 @@ class Product {
 	protected $title;
 	protected $description;
 	protected $articleNumber;
+	protected $categoryId;
 
 	protected $price;
 	protected $oldPrice;
 	protected $currency;
 
-	protected $categoryId;
+	protected $quantity;
 
 	protected $attributes = array();
 
@@ -47,6 +48,9 @@ class Product {
 					break;
 				case 'currency':
 					$this->setCurrency($value);
+					break;
+				case 'quantity':
+					$this->setQuantity($value);
 					break;
 				default:
 					$this->setAttribute($name, $value);
@@ -141,6 +145,23 @@ class Product {
 		return $this;
 	}
 
+	public function getQuantity()
+	{
+	    return $this->quantity;
+	}
+	
+	public function setQuantity($quantity)
+	{
+	    $this->quantity = $quantity;
+	    
+	    return $this;
+	}
+
+	public function getTotal()
+	{
+	    return ($this->getPrice() * $this->getQuantity());
+	}
+
 	public function getAttribute($name)
 	{
 		if (array_key_exists($name, $this->attributes))
@@ -160,14 +181,14 @@ class Product {
 
 	public function __sleep()
 	{
-		return array('title', 'description', 'articleNumber', 'categoryId', 'price', 'oldPrice', 'currency', 'attributes');
+		return array('title', 'description', 'articleNumber', 'categoryId', 'price', 'oldPrice', 'currency', 'quantity', 'attributes');
 	}
 
 	public function __set($name, $value) 
 	{
 		if (property_exists($this, $name))
 		{
-			return $this->$name = $value;
+			$this->$name = $value;
 		}
 
 		$this->setAttribute($name, $value);

@@ -41,7 +41,7 @@ class Cart {
 		}
 	}
 
-	public function add($id, $count = 1)
+	public function add($id, $quantity = 1)
 	{
 		$data = ['id' => $id];
 
@@ -49,7 +49,7 @@ class Cart {
 		
 		$product = \Product::find($id);
 
-		if ($product === null) 
+		if (($product === null) or (!$product->isVisible())) 
 		{
 			throw new Exception\NotFoundException('Not Found');
 		}
@@ -58,23 +58,44 @@ class Cart {
 
 		$product = new \Favus\Product\Product($data);
 
-		$product->count = $count;
-
-		if (!\Cart::has($product->id))
+		if (\Cart::has($product->id))
 		{
-			$key = $this->sessionKey . '.' . $product->id;
+			$totalQuantity = ($quantity + \Cart::get($product->id)->quantity);
 
-			$data = serialize($product);
-
-			if (Config::get('site/cart.forever', 'true'))
-			{
-				Session::forever($key, $data);
-			}
-			else
-			{
-				Session::put($key, $data);
-			}
+			$quantity = (($product->count != -1) and ($totalQuantity > $product->count)) ? $product->count : $totalQuantity;
 		}
+		else
+		{
+			$quantity = (($product->count != -1) and ($quantity > $product->count)) ? $product->count : $quantity;
+		}
+
+		$product->setQuantity($quantity);
+
+		$key = $this->sessionKey . '.' . $product->id;
+
+		$data = serialize($product);
+
+		Session::put($key, $data);
+	}
+
+	public function get($id)
+	{
+		$data = ['id' => $id];
+
+		Cart::validate($data);
+
+		if (!\Cart::has($id))
+		{
+			throw new Exception\NotFoundException('Not Found');
+		}
+
+		$key = $this->sessionKey . '.' . $id;
+
+		$data = Session::get($key);
+
+		$product = unserialize($data);
+
+		return $product;
 	}
 
 	public function delete($id)
@@ -114,7 +135,7 @@ class Cart {
 
 		foreach ($products as $product) 
 		{	
-			$total += $product->getPrice();
+			$total += $product->getTotal();
 		}
 
 		return $total;

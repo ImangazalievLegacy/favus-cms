@@ -18,7 +18,7 @@
 	<form action="{{ URL::route('admin.products.edit-post', $product->id) }}" method="post">
 
 		<div class="form-group">
-			<label for="title" >Название</label>
+			<label for="title">Название</label>
 			<input type="text" name="title" size="30" value="{{ (Input::old('title')) ? e(Input::old('title')) : $product->title }}" placeholder="Введите название товара" id="title" class="form-control">
 			@if ( $errors->has('title') )
 				<span class="help-block text-danger"><p>{{ $errors->first('title') }}</p></span>
@@ -134,6 +134,14 @@
 		</div>
 
 		<div class="form-group">
+			<label for="count" class="control-label">Количество</label>
+			<input type="text" name="count" size="30" value="{{ (Input::old('count')) ? e(Input::old('count')) : $product->count }}" placeholder="Введите количество товара" id="count" class="form-control">
+			@if ( $errors->has('count') )
+				<span class="help-block text-danger"><p>{{ $errors->first('count') }}</p></span>
+			@endif
+		</div>
+
+		<div class="form-group">
 			<label for="price" class="control-label">Цена</label>
 			<input type="text" name="price" size="30" value="{{ (Input::old('price')) ? e(Input::old('price')) : $product->price }}" placeholder="Введите цену товара" id="price" class="form-control">
 			@if ( $errors->has('price') )
@@ -171,9 +179,17 @@
 			@endif
 		</div>
 
+		<div class="form-group">
+			<label for="visible"><input type="checkbox" name="visible" id="visible" value="1" {{ ((Input::has('visible')) or ($product->isVisible())) ? 'checked' : '' }}> Отображать в каталоге</label>
+			@if ( $errors->has('visible') )
+				<span class="help-block text-danger"><p>{{ $errors->first('visible') }}</p></span>
+			@endif
+		</div>
+
 		{{ Form::token() }}
 
 		<button type="submit" class="btn btn-primary">Сохранить</button>
+
 	</form>
 
 

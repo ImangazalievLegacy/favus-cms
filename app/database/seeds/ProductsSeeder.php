@@ -31,6 +31,9 @@ class ProductsSeeder extends Seeder {
 				'price'          => mt_rand(100, 30000),
 				'old_price'      => mt_rand(30000, 50000),
 
+				'count'          => mt_rand(0, 100),
+				'visible'        => true,
+
 				'article_number' => $faker->ean13(),
 				'currency'       => $currency
 			]);

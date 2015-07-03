@@ -12,6 +12,8 @@ $( document ).ready(function() {
 
 			response = $.parseJSON(data);
 
+			console.log(response);
+
 			if (response.status == 200)
 			{
 				alert('Товар добавлен в корзину');

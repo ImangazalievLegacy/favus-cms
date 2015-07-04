@@ -26,9 +26,6 @@ class OrderController extends BaseController {
 
 	public function postMakeOrder()
 	{
-		$userId    = -1;
-		$addressId = -1;
-
 		$fullname    = Input::get('fullname');
 		$email       = Input::get('email');
 		$phoneNumber = Input::get('phone_number');
@@ -36,13 +33,16 @@ class OrderController extends BaseController {
 		if (Auth::guest())
 		{
 			$customerType = 'guest';
+
+			$userId    = 0;
+			$addressId = 0;
 		}
 		else
 		{
 			$customerType = 'user';
+			
 			$userId       = Auth::user()->id;
-
-			$addresses = Address::getByOwnerId($userId);
+			$addresses    = Address::getByOwnerId($userId);
 
 			if ($addresses->count())
 			{

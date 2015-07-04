@@ -127,7 +127,7 @@ class Cart {
 		return $this->count() == 0;
 	}
 
-	public function getTotal()
+	public function getTotal($withDiscount = true)
 	{
 		$total = 0;
 
@@ -136,6 +136,16 @@ class Cart {
 		foreach ($products as $product) 
 		{	
 			$total += $product->getTotal();
+		}
+
+		if (Config::get('site/order.discount.enabled') and $withDiscount)
+		{
+			if ($total >= Config::get('site/order.discount.from'))
+			{
+				$discount = Config::get('site/order.discount.percentage');
+
+				$total = (int) ($total - ($total/100) * $discount);
+			}
 		}
 
 		return $total;

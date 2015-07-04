@@ -223,12 +223,19 @@ class Product extends Eloquent {
 
 	public function getMainImageId()
 	{
-		return $this->main_image_id;
+		return (int) $this->main_image_id;
 	}
 
 	public function getMainImage()
 	{
-		return $this->getImages()[$this->getMainImageId()];
+		$mainImageId = $this->getMainImageId();
+
+		if ($this->hasImages())
+		{
+			return $this->getImages()[$mainImageId];
+		}
+
+		return null;
 	}
 
 	public function isVisible()

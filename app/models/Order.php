@@ -103,4 +103,14 @@ class Order extends Eloquent {
 		
 		return (bool) $product->delete();
 	}
+
+	public static function can()
+	{
+		if (Cart::getTotal(false) < Config::get('site/order.minimum-amount'))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

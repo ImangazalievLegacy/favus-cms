@@ -30,7 +30,7 @@
 		@endif
 
 		<p>{{ $product->description }}</p>
-		Price: <i>{{ $product->price }}</i>
+		Price: <i>{{ Currency::addSymbol($product->price, $product->currency) }}</i>
 		<br>
 
 		<button id="add-product">Add To Cart</button>

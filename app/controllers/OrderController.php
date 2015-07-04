@@ -4,6 +4,15 @@ class OrderController extends BaseController {
 
 	public function getMakeOrder()
 	{
+		$minimumAmount = Config::get('site/order.minimum-amount');
+
+		if (Cart::getTotal() < $minimumAmount)
+		{
+			$currency = Currency::addSymbol($minimumAmount);
+
+			return Redirect::route('cart.index')->with('global', 'Вы не можете сделать заказ, минимальная сумма заказа - ' . $currency);
+		}
+
 		$shippingMethods = Shipping::getMethods();
 		$paymentMethods  = ['cash', 'bank_transfer']; 
 
@@ -26,6 +35,15 @@ class OrderController extends BaseController {
 
 	public function postMakeOrder()
 	{
+		$minimumAmount = Config::get('site/order.minimum-amount');
+
+		if (Cart::getTotal() < $minimumAmount)
+		{
+			$currency = Currency::addSymbol($minimumAmount);
+
+			return Redirect::route('cart.index')->with('global', 'Вы не можете сделать заказ, минимальная сумма заказа - ' . $currency);
+		}
+
 		$fullname    = Input::get('fullname');
 		$email       = Input::get('email');
 		$phoneNumber = Input::get('phone_number');

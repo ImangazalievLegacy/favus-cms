@@ -7,9 +7,9 @@
 
 	@else
 
-			<div class="product-image">
-				<img src="{{ URL::to('images/noimage.jpg') }}" alt="">
-			</div>
+		<div class="product-image">
+			<img src="{{ URL::to('images/noimage.jpg') }}" alt="">
+		</div>
 
 	@endif
 

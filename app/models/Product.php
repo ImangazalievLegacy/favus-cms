@@ -107,6 +107,8 @@ class Product extends Eloquent {
 		$data['price'] = trim(preg_replace('/\s*/', '', $data['price']));
 		$data['old_price'] = trim(preg_replace('/\s*/', '', $data['old_price']));
 
+		$data['main_image_id'] = (int) $data['main_image_id'];
+
 		$product = Product::create(array(
 			
 			'title'          => $data['title'],

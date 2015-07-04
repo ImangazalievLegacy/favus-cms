@@ -14,7 +14,7 @@ class CreatePagesTable extends Migration {
 	{
 		Schema::create('pages', function($table){
 
-			$table->increments('id'); // идентификатор страницы
+			$table->increments('id')->unsigned(); // идентификатор страницы
 			$table->string('title', 64); // название страницы
 			$table->string('url', 128); // URL страницы (ЧПУ)
 			$table->boolean('visible'); // видимость страницы

@@ -14,7 +14,7 @@ class CreateShippingTable extends Migration {
 	{
 		Schema::create('shipping', function($table){
 
-			$table->increments('id'); // идентификатор способа доставки
+			$table->increments('id')->unsigned(); // идентификатор способа доставки
 			
 			$table->string('title', 50); // название способа доставки
 			$table->string('lang_code', 5); // код локали, для которой доступен данный способ доставки
@@ -23,7 +23,7 @@ class CreateShippingTable extends Migration {
 			$table->string('currency', 30); // код валюты, в которой указана цена
 			$table->string('delivery_time', 30); // время доставки
 
-			$table->integer('status'); // статус (включен/выключен)
+			$table->boolean('status'); // статус (включен/выключен)
 
 			$table->timestamps();
 

@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration {
 		
 		Schema::create('products', function($table){
 
-			$table->increments('id'); // идентификатор товара
+			$table->increments('id')->unsigned(); // идентификатор товара
 			$table->string('title', 256); // название товара
 			$table->text('description'); // описание товара
 			$table->text('images'); // изображения товара
@@ -24,8 +24,8 @@ class CreateProductsTable extends Migration {
 			$table->string('url', 512); // URL товара (ЧПУ)
 			$table->integer('category_id'); // идентификатор категории товара
 
-			$table->integer('price'); // цена товара
-			$table->integer('old_price'); // старая цена товара
+			$table->integer('price')->unsigned(); // цена товара
+			$table->integer('old_price')->unsigned(); // старая цена товара
 			$table->string('currency', 16); // код валюты, в которой указана цена товара
 
 			$table->string('article_number', 32); // артикул товара

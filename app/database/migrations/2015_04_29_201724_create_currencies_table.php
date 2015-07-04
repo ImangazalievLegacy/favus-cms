@@ -15,7 +15,7 @@ class CreateCurrenciesTable extends Migration {
 		
 		Schema::create('currencies', function($table){
 
-			$table->increments('id'); // идентификатор валюты
+			$table->increments('id')->unsigned(); // идентификатор валюты
 			
 			$table->string('title', 30); // название валюты
 			$table->string('code', 5); // код валюты

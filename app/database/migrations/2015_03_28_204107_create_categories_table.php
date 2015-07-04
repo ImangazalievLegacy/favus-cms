@@ -14,12 +14,12 @@ class CreateCategoriesTable extends Migration {
 	{
 		Schema::create('categories', function($table){
 
-			$table->increments('id'); // идентификатор категории
+			$table->increments('id')->unsigned(); // идентификатор категории
 			$table->string('title', 64); // название категории
 			$table->string('url', 128); // URL категории (ЧПУ)
 			
-			$table->integer('position'); // позиция элемента
-			$table->integer('level'); // уровень вложенности
+			$table->integer('position')->unsigned(); // позиция элемента
+			$table->integer('level')->unsigned(); // уровень вложенности
 			$table->integer('parent_id')->nullable(); // идентификатор родительского элемента
 
 			$table->timestamps();

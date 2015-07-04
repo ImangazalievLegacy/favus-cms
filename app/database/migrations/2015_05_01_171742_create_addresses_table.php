@@ -15,16 +15,16 @@ class CreateAddressesTable extends Migration {
 		
 		Schema::create('addresses', function($table){
 
-			$table->increments('id'); // идентификатор адреса
-			$table->integer('owner_id'); // идентификатор пользователя, которому принадлежит адрес
+			$table->increments('id')->unsigned(); // идентификатор адреса
+			$table->integer('owner_id')->unsigned(); // идентификатор пользователя, которому принадлежит адрес
 			
-			$table->string('fullname', 30); // ФИО
-			$table->string('country', 30); // страна
-			$table->string('city', 30); // город
-			$table->string('province', 30); // край/область/регион
+			$table->string('fullname', 128); // ФИО
+			$table->string('country', 64); // страна
+			$table->string('city', 64); // город
+			$table->string('province', 64); // край/область/регион
 			$table->string('zip_code', 30); // почтовый индекс 
 			$table->string('phone_number', 30); // телефон получателя
-			$table->string('email', 30); // E-mail получателя
+			$table->string('email', 50); // E-mail получателя
 
 			$table->timestamps();
 

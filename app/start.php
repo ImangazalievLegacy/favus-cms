@@ -2,9 +2,7 @@
 
 	require app_path().'/Favus/helpers.php';
 
-	$theme = Config::get('site/general.theme', 'default');
-
-	View::addLocation(public_path('themes').'/'.$theme);
+	View::addLocation(theme_path());
 
 	/*
 	* Обработчики ошибок

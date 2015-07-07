@@ -9,6 +9,15 @@ Route::pattern('hex', '[a-f0-9]+');
 Route::pattern('string', '[a-zA-Z0-9]+');
 Route::pattern('username', '[a-f0-9]+');
 
+Route::when('*', 'opened', ['get', 'post', 'put', 'patch', 'delete']);
+
+Route::get('/downtime', array(
+
+	'as' => 'downtime',
+	'uses' => 'HomeController@downtime'
+
+));
+
 Route::get('/', array(
 
 	'as' => 'home',
@@ -22,7 +31,7 @@ Route::group(array('prefix' => 'account'), function()
 	/*
 	* Для неавторизованных пользователей
 	*/
-
+	
 	Route::group(array('before' => 'guest'), function(){
 
 		Route::get('create', array(

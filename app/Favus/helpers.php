@@ -17,7 +17,7 @@ if ( ! function_exists('theme_path'))
 
 		$theme = Config::get('site/general.theme', 'default');
 
-		return public_path('themes').'/'.$theme.$path;
+		return str_replace("\\", "/", public_path('themes').'/'.$theme.$path);
 	}
 
 }

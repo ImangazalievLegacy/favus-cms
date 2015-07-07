@@ -79,7 +79,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$user->active = 1;
 		$user->hash   = '';
 
-		return $user->save();
+		if ($user->save())
+		{
+			return $user;
+		}
+
+		return false;
 	}
 
 	public static function resetPassword($data)

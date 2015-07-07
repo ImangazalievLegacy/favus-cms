@@ -24,8 +24,8 @@ class CreateProductsTable extends Migration {
 			$table->string('url', 512); // URL товара (ЧПУ)
 			$table->integer('category_id'); // идентификатор категории товара
 
-			$table->integer('price')->unsigned(); // цена товара
-			$table->integer('old_price')->unsigned(); // старая цена товара
+			$table->decimal('price')->unsigned(); // цена товара
+			$table->decimal('old_price')->unsigned(); // старая цена товара
 			$table->string('currency', 16); // код валюты, в которой указана цена товара
 
 			$table->string('article_number', 32); // артикул товара

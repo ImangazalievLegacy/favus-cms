@@ -7,4 +7,9 @@ class HomeController extends BaseController {
 		return View::make('home');
 	}
 
+	public function downtime()
+	{
+		return View::make('closed');
+	}
+
 }

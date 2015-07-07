@@ -29,13 +29,13 @@ class Category extends Tree {
 	{
 		Category::validate($data);
 
+		Category::clearCache();
+
 		return parent::addChild($data);
 	}
 
 	public static function add($parentId, $data)
 	{
-		Category::validate($data);
-
 		$category = Category::find($parentId);
 
 		if ($category === null)
@@ -44,6 +44,13 @@ class Category extends Tree {
 		}
 		
 		return $category->addSub($data['title'], $data['url']);
+	}
+
+	public function deleteNode()
+	{
+		Category::clearCache();
+
+		return parent::deleteNode();
 	}
 
 	public static function destroy($id)
@@ -77,34 +84,15 @@ class Category extends Tree {
 	{	
 		$categories = Category::getAll();
 
-		$segments = explode($delimiter, $path);
-
-		$level = 0;
-
-		$result = null;
-
-		$categoriesNum = count($categories);
-
-		for ($i=1; $i < $categoriesNum; $i++) { 
-
-		 	$category = $categories[$i];
-
-			if ($category->level == $level+1)
+		foreach ($categories as $category)
+		{
+			if ($category->getPath() == $path)
 			{
-				if ($category->url == $segments[$level])
-				{
-					$level++;
-
-					if ($category->level == count($segments))
-					{
-						$result = $category;
-						break;
-					}
-				}
+				return $category;
 			}
 		}
 
-		return $result;
+		return null;
 	}
 
 	public function getSubcategories()
@@ -191,7 +179,103 @@ class Category extends Tree {
 			
 		));
 
+		if ($updated)
+		{
+			Category::clearCache();
+		}
+
 		return $updated;
+	}
+
+	public function getWidth()
+	{
+		$key = "categories.{$this->id}.width";
+
+		if (Cache::has($key))
+		{
+			return Cache::get($key);
+		}
+
+		$width = parent::getWidth();
+
+		Cache::forever($key, $width);
+
+		return $width;
+	}
+
+	public function getPath()
+	{
+		$key = "categories.{$this->id}.path";
+
+		if (Cache::has($key))
+		{
+			return Cache::get($key);
+		}
+
+		Category::cache(); 
+
+		return Cache::get($key);
+	}
+
+	public function getBreadcrumbs()
+	{
+		$key = "categories.{$this->id}.breadcrumbs";
+
+		if (Cache::has($key))
+		{
+			return Cache::get($key);
+		}
+
+		Category::cache(); 
+
+		return Cache::get($key);
+	}
+
+	public function cache($clearCache = true)
+	{
+		if ($clearCache)
+		{
+			Category::clearCache();
+		}
+
+		$categories = Category::getAll();
+
+		$lastLevel = 0;
+
+		$path = array();
+		$breadcrumbs = array();
+
+		foreach ($categories as $category)
+		{
+			if ($category->level > 0) 
+			{
+				if ($category->level <= $lastLevel)
+				{
+					$diff = $lastLevel - $category->level + 1;
+
+					$newSize = count($path) - $diff;
+
+					$path = array_slice($path, 0, $newSize);
+					$breadcrumbs = array_slice($breadcrumbs, 0, $newSize);
+				}
+				
+				$path[] = $category->url;
+				$breadcrumbs[] = $category->title;
+			}
+
+			$lastLevel = $category->level;
+
+			$pathKey = "categories.{$category->id}.path";
+			$breadcrumbsKey = "categories.{$category->id}.breadcrumbs";
+
+			Cache::forever($pathKey, implode('/', $path)); 
+			Cache::forever($breadcrumbsKey, $breadcrumbs); 
+		}
+	}
+
+	public static function clearCache()
+	{
+		Cache::forget('categories');
 	}
 
 }

@@ -8,6 +8,8 @@
 
 	<h2>{{ $category->title }}</h2>
 
+	<br>{{ implode('/', $category->getBreadcrumbs()) }}
+
 	@if (isset($products) && count($products)>0)
 
 		<ol>

@@ -87,9 +87,18 @@ class AccountController extends BaseController {
 	{
 		try {
 
-			if (User::activate($code))
+			if ($user = User::activate($code))
 			{
-				return Redirect::route('home')->with('global', 'Activated! You can now sign in');
+				if (Config::get('site/registration.autologin'))
+				{
+					$auth = Auth::loginUsingId($user->id);
+
+					return Redirect::route('home');
+				}
+				else
+				{
+					return Redirect::route('home')->with('global', 'Activated! You can now sign in');
+				}
 			}
 
 		} catch (NotFoundException $e) {
@@ -216,5 +225,4 @@ class AccountController extends BaseController {
 
 		return Redirect::route('resend.activation.code')->with('global', 'Could not resend activation code');
 	}
-
 }

@@ -19,7 +19,7 @@ class CreateShippingTable extends Migration {
 			$table->string('title', 50); // название способа доставки
 			$table->string('lang_code', 5); // код локали, для которой доступен данный способ доставки
 
-			$table->string('cost', 30); // стоимость доставки
+			$table->decimal('cost', 30); // стоимость доставки
 			$table->string('currency', 30); // код валюты, в которой указана цена
 			$table->string('delivery_time', 30); // время доставки
 

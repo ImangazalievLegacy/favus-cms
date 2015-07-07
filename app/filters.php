@@ -88,3 +88,16 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+Route::filter('opened', function ()
+{
+	if (Config::get('site/general.downtime'))
+	{
+		$exclusion = ['downtime', 'admin', 'api'];
+		
+		if (!in_array(Route::currentRouteName(), $exclusion))
+		{
+			return Redirect::route('downtime');
+		}
+	}
+});

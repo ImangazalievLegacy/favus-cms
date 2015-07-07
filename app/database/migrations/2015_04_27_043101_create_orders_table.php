@@ -28,7 +28,7 @@ class CreateOrdersTable extends Migration {
 
 			$table->text('product_list'); // список заказанных товаров
 			$table->text('comment'); // комментарий к заказу
-			$table->integer('total')->unsigned(); // общая цена всех товаров (итого)
+			$table->decimal('total')->unsigned(); // общая цена всех товаров (итого)
 
 			$table->string('status', 30); // статус заказа
 			$table->timestamp('added_on'); // дата и время добавления заказа

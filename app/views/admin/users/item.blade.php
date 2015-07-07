@@ -20,8 +20,12 @@
 		<a href="" class="btn btn-default change-user">
 			<span class="fa fa-fw fa-pencil" aria-hidden="true"></span>
 		</a>
-		<a href="" class="btn btn-danger delete-user">
-			<span class="fa fa-fw fa-trash-o" aria-hidden="true"></span>
-		</a>
+		@if (Auth::user()->id != $user->id)
+		
+			<a href="" class="btn btn-danger delete-user">
+				<span class="fa fa-fw fa-trash-o" aria-hidden="true"></span>
+			</a>
+
+		@endif
 	</td>
 </tr>

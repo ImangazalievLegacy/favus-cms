@@ -70,6 +70,11 @@ class Category extends Tree {
 			throw new InvalidDataException('Invalid ID', $validator->errors());
 		}
 
+		if ((!Auth::guest()) and (Auth::user()->id == $id)) 
+		{
+			throw new InvalidDataException('You cannot delete yourself');
+		}
+
 		$category = self::find($id);
 
 		if ($category === null)

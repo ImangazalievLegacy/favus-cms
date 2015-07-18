@@ -7,7 +7,7 @@ use Favus\Api\Facades\Router as Router;
 use Favus\Api\Http\Response as Response;
 use \Request as Request;
 
-class ApiDispatcher
+class Dispatcher
 {
 	function __construct()
 	{

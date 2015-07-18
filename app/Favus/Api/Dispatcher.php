@@ -21,7 +21,12 @@ class Dispatcher
 
 		Router::setInstance($router);
 
-		require __DIR__ . '/' . 'routes.php';
+		$routes = __DIR__ . '/' . 'routes.php';
+
+		if (file_exists($routes))
+		{
+			require $routes;
+		}
 
 		$this->router = $router;
 	}

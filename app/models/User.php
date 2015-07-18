@@ -41,7 +41,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'username'   => $data['username'],
 			'password'   => Hash::make($data['password']),
 			'hash'       => $activationCode,
-			'active'     => 0
+			'active'     => isset($data['active']) ? $data['active'] : 0,
 
 		));
 

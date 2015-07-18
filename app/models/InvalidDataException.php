@@ -2,8 +2,7 @@
 
 use Illuminate\Support\MessageBag as MessageBag;
 
-class InvalidDataException extends \Exception
-{
+class InvalidDataException extends \Exception {
 
 	/**
 	 * @var \Illuminate\Support\MessageBag

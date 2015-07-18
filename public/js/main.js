@@ -6,8 +6,6 @@ function apiRequest(apiMethod, data, successCallback, errorCallback)
 
 	errorCallback = errorCallback || function (xhr) { console.log(xhr.responseText); };
 
-	//$.post(url, data, callback);
-
 	$.ajax({
 
 		"url": url,

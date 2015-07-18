@@ -13,7 +13,7 @@ class Dispatcher
 	{
 		$dispatcher = new \Illuminate\Events\Dispatcher();
 
-		$router = new Http\Router($dispatcher);
+		$router = new Routing\Router($dispatcher);
 
 		$prefix = __NAMESPACE__ . '\\Controllers\\';
 

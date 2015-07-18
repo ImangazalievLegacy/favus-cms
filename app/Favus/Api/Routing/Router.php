@@ -1,6 +1,6 @@
 <?php
 
-namespace Favus\Api\Http;
+namespace Favus\Api\Routing;
 
 use Closure;
 use Illuminate\Http\Request;

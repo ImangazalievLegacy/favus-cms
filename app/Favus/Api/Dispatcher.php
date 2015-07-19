@@ -3,25 +3,27 @@
 namespace Favus\Api;
 
 use Favus\Api\Exception;
-use Favus\Api\Facades\Router as Router;
-use Favus\Api\Http\Response as Response;
-use \Request as Request;
+use Favus\Api\Facades\Router;
+use Favus\Api\Http\Response;
+use \Request;
 
 class Dispatcher
 {
-	function __construct()
+	function __construct($prefix = 'Api')
 	{
 		$dispatcher = new \Illuminate\Events\Dispatcher();
 
 		$router = new Routing\Router($dispatcher);
 
-		$prefix = __NAMESPACE__ . '\\Controllers\\';
+		Router::setInstance($router);
+
+		$prefix .= '\\Controllers';
 
 		$router->setPrefix($prefix);
 
-		Router::setInstance($router);
+		$folder = dirname(str_replace('\\', '/', app_path() . '/' . $prefix));
 
-		$routes = __DIR__ . '/' . 'routes.php';
+		$routes =  $folder . '/routes.php';
 
 		if (file_exists($routes))
 		{
@@ -29,6 +31,12 @@ class Dispatcher
 		}
 
 		$this->router = $router;
+
+		\ClassLoader::addDirectories(array(
+
+			app_path(),
+
+		));		
 	}
 
 	public function checkToken()
@@ -61,7 +69,6 @@ class Dispatcher
 
 		try {
 			
-			//$content = $this->router->dispatch($request);
 			$content = Router::dispatch($request);
 
 			if ($content === null)
@@ -84,7 +91,9 @@ class Dispatcher
 
 		} catch (\Exception $e) {
 
-			$response = Response::error(500, 'Internal Server Error.', $e->getMessage());
+			$message = $e->getMessage();
+
+			$response = Response::error(500, 'Internal Server Error.', $message);
 
 		} 
 

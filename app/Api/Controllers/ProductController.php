@@ -1,23 +1,23 @@
 <?php
 
-namespace Favus\Api\Controllers;
+namespace Api\Controllers;
 
 use Favus\Api\Exception;
 use \Input as Input;
 use \Validator as Validator;
-use \Order as Order;
+use \Product as Product;
 use \NotFoundException as NotFoundException;
 use \InvalidDataException as InvalidDataException;
 
-class OrderController extends BaseController
+class ProductController extends BaseController
 {
-	public function deleteOrder()
+	public function deleteProduct()
 	{
 		$id = Input::get('id');
 
 		try {
 
-			$result = Order::destroy($id);
+			$result = Product::destroy($id);
 
 		} catch (NotFoundException $e) {
 

@@ -41,19 +41,22 @@ class Dispatcher
 
 	public function checkToken()
 	{
-		return true;
-
-		if (\Request::ajax())
+		if (\Config::get('app.debug'))
 		{
-			if ((\Session::getToken() != \Request::header('X-CSRF-Token')) or (\Session::token() != \Input::get('_token')))
+			return true;
+		}
+
+		if (Request::ajax())
+		{
+			if ((\Session::getToken() != Request::header('X-CSRF-Token')) or (\Session::token() != \Input::get('_token')))
 			{
-				throw new Exception\InvalidTokenException;
+				throw new Exception\InvalidTokenException('Token Mismatch Exception');
 			}
 		}
 		else
 		{
 			//для приложения
-			throw new Exception\InvalidTokenException;
+			throw new Exception\InvalidTokenException('Invalid Token');
 		}
 	}
 
@@ -61,13 +64,13 @@ class Dispatcher
 	{
 		$path = '/' . $path;
 
-		$server = $_SERVER;
-
 		$_SERVER['REQUEST_URI'] = $path;
 
         $request = Request::createFromGlobals();
 
 		try {
+
+			$this->checkToken();
 			
 			$content = Router::dispatch($request);
 
@@ -94,7 +97,6 @@ class Dispatcher
 			$message = $e->getMessage();
 
 			$response = Response::error(500, 'Internal Server Error.', $message);
-
 		} 
 
 		$response->send();

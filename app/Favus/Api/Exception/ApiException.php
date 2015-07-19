@@ -2,7 +2,9 @@
 
 namespace Favus\Api\Exception;
 
-abstract class ApiException extends \Exception
+use \Exception;
+
+abstract class ApiException extends Exception
 {
 	protected $message;
 	protected $description;

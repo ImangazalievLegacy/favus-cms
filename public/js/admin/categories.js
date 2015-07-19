@@ -1,28 +1,41 @@
-$( document ).ready(function() {
++function($, window) {
+	'use strict';
 
-	function deleteCategory(id)
-	{
-		var data = {
+	var Category = {
 
-			"id": id
+	};
 
-		}
+	Category.delete = function (id) {
+		var data = { "id": id };
 
-		apiRequest('category/delete', data, function(data){
+		Api.request('category/delete', data)
+			.done(function(data){
 
-			response = $.parseJSON(data);
+				var response = $.parseJSON(data);
 
-			if (response.status == 200)
-			{
-				alert('Категория удалена');
-			}
-			else
-			{
+				console.log(response);
+
+				if (response.status == 200)
+				{
+					alert('Категория удалена');
+				}
+				else
+				{
+					alert('Ошибка');
+				}
+
+			})
+			.fail(function(jqXHR, textStatus){
+
 				alert('Ошибка');
-			}
+			});
+	};
 
-		});
-	}
+	window.Category = Category;
+
+}(jQuery, window);
+
+$( document ).ready(function() {
 
 	$('.delete-category').on('click', function(event){
 
@@ -30,7 +43,7 @@ $( document ).ready(function() {
 
 		var id = $(this).parent('li').data('id');
 
-		deleteCategory(id);
+		Category.delete(id);
 	});
 
 });

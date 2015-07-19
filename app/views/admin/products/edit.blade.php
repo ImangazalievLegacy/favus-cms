@@ -8,9 +8,9 @@
 
 @section('footer')
 	<script src="{{ asset('/js/tinymce/tinymce.min.js') }}"></script>
+	<script src="{{ asset('/js/admin/wysiwyg/init.js') }}"></script>
 	<script src="{{ asset('/js/handlebars.js') }}"></script>
 	<script src="{{ asset('/js/admin/products/upload.js') }}"></script>
-	<script src="{{ asset('/js/admin/products/add.js') }}"></script>
 @stop
 
 @section('content')
@@ -119,7 +119,7 @@
 
 		<div class="form-group">
 			<label for="description" class="control-label">Описание</label>
-			<textarea name="description" rows="8" placeholder="Введите описание товара" id="description" class="form-control">{{ (Input::old('description')) ? e(Input::old('description')) : $product->description }}</textarea>
+			<textarea name="description" rows="8" placeholder="Введите описание товара" id="description" class="form-control wysiwyg">{{ (Input::old('description')) ? e(Input::old('description')) : $product->description }}</textarea>
 			@if ( $errors->has('description') )
 				<span class="help-block text-danger"><p>{{ $errors->first('description') }}</p></span>
 			@endif

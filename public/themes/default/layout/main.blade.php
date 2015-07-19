@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="api-url" content="<?php echo 'http://', $_SERVER['HTTP_HOST'], '/api'; ?>">
 	<title>@yield('title', Config::get('site/general.sitename', 'Favus CMS'))</title>
-	<script src="{{ URL::to('js/jquery-2.1.4.min.js') }}"></script>
-	<script src="{{ URL::to('js/main.js') }}"></script>
 	@yield('head')
 </head>
 <body>
@@ -19,5 +18,8 @@
 	@include('layout.navigation')
 	
 	@yield('content')
+	<script src="{{ URL::to('js/jquery-2.1.4.min.js') }}"></script>
+	<script src="{{ URL::to('js/api.js') }}"></script>
+	@yield('footer')
 </body>
 </html>

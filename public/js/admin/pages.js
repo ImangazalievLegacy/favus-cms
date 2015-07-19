@@ -1,28 +1,41 @@
-$( document ).ready(function() {
++function($, window) {
+	'use strict';
 
-	function deletePage(id)
-	{
-		var data = {
+	var Page = {
 
-			"id": id
+	};
 
-		}
+	Page.delete = function (id) {
+		var data = { "id": id };
 
-		apiRequest('page/delete', data, function(data){
+		Api.request('page/delete', data)
+			.done(function(data){
 
-			response = $.parseJSON(data);
+				var response = $.parseJSON(data);
 
-			if (response.status == 200)
-			{
-				alert('Страница удалена');
-			}
-			else
-			{
+				console.log(response);
+
+				if (response.status == 200)
+				{
+					alert('Страница удален');
+				}
+				else
+				{
+					alert('Ошибка');
+				}
+
+			})
+			.fail(function(jqXHR, textStatus){
+
 				alert('Ошибка');
-			}
+			});
+	};
 
-		});
-	}
+	window.Page = Page;
+
+}(jQuery, window);
+
+$( document ).ready(function() {
 
 	$('.delete-page').on('click', function(event){
 
@@ -30,7 +43,6 @@ $( document ).ready(function() {
 
 		var id = $(this).parent('li').data('id');
 
-		deletePage(id);
+		Page.delete(id);
 	});
-
 });

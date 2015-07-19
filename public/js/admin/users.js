@@ -1,28 +1,41 @@
-$(document).ready(function() {
++function($, window) {
+	'use strict';
 
-	function deleteUser(id)
-	{
-		var data = {
+	var User = {
 
-			"id": id
+	};
 
-		}
+	User.delete = function (id) {
+		var data = { "id": id };
 
-		apiRequest('user/delete', data, function(data){
+		Api.request('user/delete', data)
+			.done(function(data){
 
-			response = $.parseJSON(data);
+				var response = $.parseJSON(data);
 
-			if (response.status == 200)
-			{
-				alert('Пользователь удален');
-			}
-			else
-			{
+				console.log(response);
+
+				if (response.status == 200)
+				{
+					alert('Пользователь удален');
+				}
+				else
+				{
+					alert('Ошибка');
+				}
+
+			})
+			.fail(function(jqXHR, textStatus){
+
 				alert('Ошибка');
-			}
+			});
+	};
 
-		});
-	}
+	window.User = User;
+
+}(jQuery, window);
+
+$(document).ready(function() {
 
 	$('.delete-user').on('click', function(event){
 
@@ -30,7 +43,6 @@ $(document).ready(function() {
 
 		var id = $(this).closest('tr').data('id');
 
-		deleteUser(id);
+		User.delete(id);
 	});
-
 });

@@ -93,9 +93,20 @@ Route::filter('opened', function ()
 {
 	if (Config::get('site/general.downtime'))
 	{
-		$exclusion = ['downtime', 'admin', 'api'];
+		$exclusions = ['downtime', 'admin', 'api'];
+
+		$excluded = false;
+
+		foreach ($exclusions as $exclusion) {
+			
+			if (starts_with(Request::path(), $exclusion))
+			{
+				$excluded = true;
+			}
+
+		}
 		
-		if (!in_array(Route::currentRouteName(), $exclusion))
+		if (!$excluded)
 		{
 			return Redirect::route('downtime');
 		}

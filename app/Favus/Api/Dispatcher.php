@@ -60,6 +60,14 @@ class Dispatcher
 		}
 	}
 
+	public function checkDowntime()
+	{
+		if (\Config::get('site/general.downtime'))
+		{
+			throw new Exception\ForbiddenException('API is disabled');
+		}
+	}
+
 	public function handle($path, $responseType = 'json')
 	{
 		$path = '/' . $path;
@@ -71,6 +79,7 @@ class Dispatcher
 		try {
 
 			$this->checkToken();
+			$this->checkDowntime();
 			
 			$content = Router::dispatch($request);
 

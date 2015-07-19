@@ -166,6 +166,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return false;
 	}
 
+	public function checkPassword($password)
+    {
+        return Hash::check($password, $this->password);
+    }
+
 	public function isActive()
 	{
 		return (bool) $this->active;

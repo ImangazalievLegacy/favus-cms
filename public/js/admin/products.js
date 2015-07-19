@@ -1,28 +1,41 @@
-$( document ).ready(function() {
++function($, window) {
+	'use strict';
 
-	function deleteProduct(id)
-	{
-		var data = {
+	var Product = {
 
-			"id": id
+	};
 
-		}
+	Product.delete = function (id) {
+		var data = { "id": id };
 
-		apiRequest('product/delete', data, function(data){
+		Api.request('product/delete', data)
+			.done(function(data){
 
-			response = $.parseJSON(data);
+				var response = $.parseJSON(data);
 
-			if (response.status == 200)
-			{
-				alert('Товар удален');
-			}
-			else
-			{
+				console.log(response);
+
+				if (response.status == 200)
+				{
+					alert('Товар удален');
+				}
+				else
+				{
+					alert('Ошибка');
+				}
+
+			})
+			.fail(function(jqXHR, textStatus){
+
 				alert('Ошибка');
-			}
+			});
+	};
 
-		});
-	}
+	window.Product = Product;
+
+}(jQuery, window);
+
+$( document ).ready(function() {
 
 	$('.delete-product').on('click', function(event){
 
@@ -30,7 +43,6 @@ $( document ).ready(function() {
 
 		var id = $(this).parent('li').data('id');
 
-		deleteProduct(id);
+		Product.delete(id);
 	});
-
 });

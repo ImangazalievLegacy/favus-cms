@@ -4,8 +4,8 @@
 
 @section('footer')
 	<script src="{{ asset('/js/tinymce/tinymce.min.js') }}"></script>
+	<script src="{{ asset('/js/admin/wysiwyg/init.js') }}"></script>
 	<script src="{{ asset('/js/handlebars.js') }}"></script>
-	<script src="{{ asset('/js/admin/pages/add.js') }}"></script>
 @stop
 
 @section('content')
@@ -30,7 +30,7 @@
 
 		<div class="form-group">
 			<label for="content" class="control-label">Описание</label>
-			<textarea name="content" rows="8" placeholder="Введите описание товара" id="content" class="form-control">{{ (Input::old('content')) ? e(Input::old('content')) : '' }}</textarea>
+			<textarea name="content" rows="8" placeholder="Введите описание товара" id="content" class="form-control wysiwyg">{{ (Input::old('content')) ? e(Input::old('content')) : '' }}</textarea>
 			@if ( $errors->has('content') )
 				<span class="help-block text-danger"><p>{{ $errors->first('content') }}</p></span>
 			@endif

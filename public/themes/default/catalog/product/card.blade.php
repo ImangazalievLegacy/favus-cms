@@ -1,12 +1,16 @@
 @extends('layout.main')
 
 @section('head')
-<script src="{{ URL::to('js/catalog/card.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::to('css/product.css') }}">
 @stop
 
-@section('content')
 
+@section('footer')
+<script src="{{ URL::to('js/catalog/card.js') }}"></script>
+<script src="{{ URL::to('js/api/cart.js') }}"></script>
+@stop
+
+@section('content')
 	<article data-id="{{ $product->id }}">
 
 		<h1>{{ $product->title }}</h1>
@@ -42,5 +46,4 @@
 		@endif
 
 	</article>
-
 @stop

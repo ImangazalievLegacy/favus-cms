@@ -1,6 +1,6 @@
 <?php
 
-namespace Favus\Api\Http;
+namespace Favus\Api\Routing;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -18,7 +18,12 @@ class Router extends \Illuminate\Routing\Router {
 
 	protected function addRoute($methods, $uri, $action)
 	{
-		return $this->routes->add($this->createRoute($methods, $uri, $this->prefix . $action));
+		if (is_string($action))
+		{
+			return $this->routes->add($this->createRoute($methods, $uri, $this->prefix .'\\' . $action));
+		}
+
+		return $this->routes->add($this->createRoute($methods, $uri, $action));
 	}
 
 	public function getPrefix()

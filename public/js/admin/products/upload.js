@@ -1,34 +1,61 @@
-$(document).ready(function(){
-     
-    //отображение проресса загрузки
-	function progressHandlingFunction(e)
-	{
-		if(e.lengthComputable)
++function($, window) {
+	'use strict';
+
+	var input;
+
+	var Uploader = function(input) {
+
+		this.input = input;
+
+	}
+
+	Uploader.prototype.upload = function(name, before, progress) {
+
+		var formdata, files, file, filename;
+
+		files = this.input[0].files;
+		
+		if (files.length == 0)
 		{
-    		var percent = ( e.loaded / e.total ) * 100;
-
-    		var progressbar = $('#image-upload-progress .progress-bar');
-
-			progressbar.css('width', percent + '%');
-			progressbar.attr('aria-valuenow', percent);
+			return false;
 		}
+
+		file = files[0];
+
+		//создание формы
+		formdata = new FormData();
+
+		formdata.append(name, file);
+
+		//отправка
+		var jqxhr = $.ajax({
+			url: this.input.data('url'),
+			type: 'POST',
+			enctype: 'multipart/form-data',
+			contentType: false,
+            processData: false,
+            data: formdata,
+			cache: false,
+               
+			beforeSend: before,
+			xhr: progress
+        });
+
+        return jqxhr;
+	};
+
+	window.Uploader = Uploader;
+
+}(jQuery, window);
+
++function($, window) {
+	'use strict';
+
+	var Alert = {
+
 	}
 
-	//вывод уведомления
-	function showMessage(message, type) {
-
-		type = type || 'info';
-
-		var source   = $("#alert-template").html();
-		var template = Handlebars.compile(source);
-
-		var context  = {"message": message, "type": type};
-		var html     = template(context);
-
-		$('#alerts').html(html);
-	}
-
-	function uploadMessage(message, type) {
+	Alert.show = function (message, type) {
 
 		type = type || 'info';
 
@@ -41,9 +68,89 @@ $(document).ready(function(){
 		$('#upload-message').html(html);
 	}
 
+	window.UploaderAlert = Alert;
+
+}(jQuery, window);
+
+$(document).ready(function(){
+
 	$('#upload-dialog').change(function(){
 
-		uploadImage();
+		var before = function() {
+
+			$('#image-upload-progress').show();
+
+		}
+
+		var progress = function() {  
+
+			//отображение проресса загрузки
+			var displayProgress = function (e)
+			{
+				if(e.lengthComputable)
+				{
+					var percent = ( e.loaded / e.total ) * 100;
+
+					var progressbar = $('#image-upload-progress .progress-bar');
+
+					progressbar.css('width', percent + '%');
+					progressbar.attr('aria-valuenow', percent);
+				}
+			}
+				
+			var myXhr = $.ajaxSettings.xhr();
+
+			// проверка что осуществляется загрузка
+			if(myXhr.upload)
+			{ 
+				//передача в функцию значений
+				myXhr.upload.addEventListener('progress', displayProgress, false);
+			}
+
+			return myXhr;
+		}
+
+		var uploader = new Uploader($('#upload-dialog'));
+
+		uploader.upload("file", before, progress)
+			.done(function(dataJson){
+
+				//скрытие прогресс бара и показ уведомления
+				$('#image-upload-progress').hide();
+
+				//получение url изображения
+				var data = $.parseJSON(dataJson);
+				console.log(data);
+
+				var path = data.response;
+
+				//добавление превью
+				var file = $('#upload-dialog')[0].files[0];
+			
+				var reader = new FileReader();
+
+				reader.readAsDataURL(file);
+
+				reader.onload = function (e) {
+
+					var src = e.target.result;
+					var id  = $("#thumbnails .thumbnail").length;
+
+					var source   = $("#thumbnail-template").html();
+					var template = Handlebars.compile(source);
+					var context  = {"src": src, "path": path};
+					var html	 = template(context);
+
+					$('#thumbnails').append(html);
+				}	  
+			})
+			.fail(function(xhr) {
+
+				$('#image-upload-progress').hide();
+				UploaderAlert.show('Ошибка загрузки файлов', 'danger');
+
+				console.log(xhr.responseText);
+			});
 
 	});
 
@@ -86,95 +193,4 @@ $(document).ready(function(){
 			$("#main-image-id").val(id);
 		}
 	});
-
-	//функция отправки файла
-	function uploadImage() {
-
-		//создание формы
-		var formdata, file, filename;
-
-		formdata = new FormData();
-		
-		if ($('#upload-dialog')[0].files.length == 0)
-		{
-			return;
-		}
-
-		file = $('#upload-dialog')[0].files[0];
-		formdata.append("file", file);
-
-		//отправка
-		$.ajax({
-			url: $('#upload-dialog').data('url'),
-			type: 'POST',
-			enctype: 'multipart/form-data',
-			contentType: false,
-            processData: false,
-            data: formdata,
-			cache: false,
-               
-			xhr: function() {  
-			
-				var myXhr = $.ajaxSettings.xhr();
-
-				// проверка что осуществляется загрузка
-				if(myXhr.upload)
-				{ 
-					//передача в функцию значений
-					myXhr.upload.addEventListener('progress',progressHandlingFunction, false);
-				}
-                
-				return myXhr;
-			},
-			 
-			beforeSend: function() {
-
-				$('#image-upload-progress').show();
-
-			},
-             
-			success: function(dataJson){
-
-				//скрытие прогресс бара и показ уведомления
-				$('#image-upload-progress').hide();
-				uploadMessage('', 'info');
-
-				//получение url изображения
-			    var data = $.parseJSON(dataJson);
-			    console.log(data);
-
-			    var path = data.response;
-
-			    //добавление превью
-			   	var file = $('#upload-dialog')[0].files[0];
-    	
-				var reader = new FileReader();
-
-				reader.readAsDataURL(file);
-
-				reader.onload = function (e) {
-
-					var src = e.target.result;
-					var id  = $("#thumbnails .thumbnail").length;
-
-					var source   = $("#thumbnail-template").html();
-					var template = Handlebars.compile(source);
-					var context  = {"src": src, "path": path};
-					var html     = template(context);
-
-					$('#thumbnails').append(html);
-				}	  
-			},
-            error: function(xhr) {
-            	$('#image-upload-progress').hide();
-            	uploadMessage('Ошибка загрузки файлов', 'danger');
-
-                console.log(xhr.responseText);
-            }
- 
-        });
-
-        return false;
-	}
-
 });

@@ -1,28 +1,41 @@
-$(document).ready(function() {
++function($, window) {
+	'use strict';
 
-	function deleteOrder(id)
-	{
-		var data = {
+	var Order = {
 
-			"id": id
+	};
 
-		}
+	Order.delete = function (id) {
+		var data = { "id": id };
 
-		apiRequest('order/delete', data, function(data){
+		Api.request('order/delete', data)
+			.done(function(data){
 
-			response = $.parseJSON(data);
+				var response = $.parseJSON(data);
 
-			if (response.status == 200)
-			{
-				alert('Заказ удален');
-			}
-			else
-			{
+				console.log(response);
+
+				if (response.status == 200)
+				{
+					alert('Заказ удален');
+				}
+				else
+				{
+					alert('Ошибка');
+				}
+
+			})
+			.fail(function(jqXHR, textStatus){
+
 				alert('Ошибка');
-			}
+			});
+	};
 
-		});
-	}
+	window.Order = Order;
+
+}(jQuery, window);
+
+$(document).ready(function() {
 
 	$('.delete-order').on('click', function(event){
 
@@ -30,7 +43,7 @@ $(document).ready(function() {
 
 		var id = $(this).closest('tr').data('id');
 
-		deleteOrder(id);
+		Order.delete(id);
 	});
 
 });

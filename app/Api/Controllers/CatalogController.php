@@ -1,23 +1,23 @@
 <?php
 
-namespace Favus\Api\Controllers;
+namespace Api\Controllers;
 
 use Favus\Api\Exception;
 use \Input as Input;
 use \Validator as Validator;
-use \Product as Product;
+use \Category as Category;
 use \NotFoundException as NotFoundException;
 use \InvalidDataException as InvalidDataException;
 
-class ProductController extends BaseController
+class CatalogController extends BaseController
 {
-	public function deleteProduct()
+	public function deleteCategory()
 	{
 		$id = Input::get('id');
 
 		try {
 
-			$result = Product::destroy($id);
+			$affectedRows = Category::destroy($id);
 
 		} catch (NotFoundException $e) {
 
@@ -27,7 +27,5 @@ class ProductController extends BaseController
 
 			throw new Exception\InvalidDataException($e->getMessage());
 		}
-
-		return $result;
 	}
 }

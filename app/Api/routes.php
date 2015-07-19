@@ -1,6 +1,6 @@
 <?php
 
-use Favus\Api\Facades\Router as Router;
+use Favus\Api\Facades\Router;
 
 Router::group(array('prefix' => 'cart'), function() {
 

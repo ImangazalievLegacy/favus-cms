@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div id="wrap">
+		<!-- Header -->
+		<header>
+			<div class="container">
+				<div class="row upper">
+					<div class="wrap col-md-10 col-md-offset-1">
+						<div class="search">
+							<form action="/search" class="search-form">
+								<input type="submit" class="icon search-submit">
+								<input type="text" class="search-field" name="q" placeholder="Search">
+							</form>
+						</div>
+						<ul class="left-menu menu">
+							<li><a href="/signup">Sign up</a></li>
+							<li><a href="/login">Login</a></li>
+						</ul>
+						<ul class="minicart menu">
+							<li><a href="/cart">Cart</a></li>
+							<li class="checkout"><a href="/order/make">Check out</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row lower">
+					<div class="col-md-10 col-md-offset-1">
+						<div class="logo"><a href="#">Favus</a></div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Body -->
+		<section class="body container">
+			<div class="row">
+				<div class="sidebar col-md-3 col-md-offset-1">
+					<nav>
+						<a href="#" id="toggle-menu">
+							<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+							<span>Menu</span>
+						</a>
+						<ul class="side-nav">
+							<li class="has-submenu">
+								<a href="#">Item 1</a>
+								<ul>
+									<li><a href="#">Subitem 1</a></li>
+									<li><a href="#">Subitem 2</a></li>
+									<li><a href="#">Subitem 3</a></li>
+								</ul>
+							</li>
+							<li class="has-submenu">
+								<a href="#">Item 2</a>
+								<ul>
+									<li><a href="#">Subitem 1</a></li>
+									<li><a href="#">Subitem 2</a></li>
+									<li><a href="#">Subitem 3</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">Item 3</a>
+							</li>
+							<li>
+								<a href="#">Item 4</a>
+							</li>
+							<li>
+								<a href="#">Item 5</a>
+							</li>
+						</ul>
+						<div id="social">
+							<a href="http://www.facebook.com/shopify" target="_blank" class="facebook "></a>
+							<a href="http://www.twitter.com/shopify" target="_blank" class="twitter "></a>
+							<a href="http://www.instagram.com/shopify" target="_blank" class="instagram "></a>
+							<a href="http://www.pinterest.com/shopify" target="_blank" class="pinterest "></a>
+							<a href="/blogs/news.atom" target="_blank" class="rss "></a>
+						</div>
+					</nav>
+				</div>
+				<div class="content col-md-7">
+					<div class="row">
+						<div class="col-md-12">
+							<div id="breadcrumb" class="desktop">
+								<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+									<a href="/" itemprop="url">
+										<span itemprop="title">Home</span>
+									</a>
+								</span>
+								—
+								<a href="/pages/about-us" class="active">About Us</a>
+							</div>
+							<h1 class="title">About Us</h1>
+							<div class="wysiwyg">
+								<p>The <strong>About Us</strong> page of your shop is vital because it’s where users go when first trying to determine a level of trust.  Since trust is such an important part of selling online, it’s a good idea to give people a fair amount information about yourself and your shop.  Here are a few things you should touch on:</p>
+								<ul>
+									<li>Who you are</li>
+									<li>Why you sell the items you sell</li>
+									<li>Where you are located</li>
+									<li>How long you have been in business</li>
+									<li>How long you have been running your online shop</li>
+									<li>Who are the people on your team</li>
+								</ul>
+								<p>To edit this information you can go to the <a href="/admin/pages">Blogs &amp; Pages Tab</a> of the administration menu.</p>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Footer -->
+	<footer class="container">
+		<div class="row lower">
+			<div class="col-md-12 copyright">
+				Copyright © 2015, Favus by <a href="https://vk.com/muhammad_97">Imangazaliev Muhammad</a>.
+			</div>
+		</div>
+	</footer>
+	
+	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

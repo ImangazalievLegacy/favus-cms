@@ -2,9 +2,9 @@
 
 return array(
 
-	'sitename' => 'Favus CMS',
+	'sitename' => 'Favus',
 	'downtime' => false,
-	'theme'    => 'default',
+	'theme'    => 'simple',
 	'currency' => 'RUB',
 	'locale'   => 'ru', 
 

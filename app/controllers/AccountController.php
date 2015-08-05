@@ -193,6 +193,7 @@ class AccountController extends BaseController {
 		}
 
 		try {
+			$email = Input::get('email');
 
 			$user = User::findByEmail($email);
 

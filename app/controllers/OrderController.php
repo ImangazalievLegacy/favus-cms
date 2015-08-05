@@ -4,6 +4,11 @@ class OrderController extends BaseController {
 
 	public function getMakeOrder()
 	{
+		if (Cart::isEmpty())
+		{
+			return Redirect::route('cart.index')->with('global', 'Ваша корзина пуста');
+		}
+
 		$minimumAmount = Config::get('site/order.minimum-amount');
 
 		if (Cart::getTotal() < $minimumAmount)

@@ -4,14 +4,7 @@ class CatalogController extends BaseController {
 
 	public function getIndex()
 	{
-		if (Config::get('site/catalog.products.show-empty'))
-		{
-			$products = Product::where('visible', '=', true)->paginate(5);
-		}
-		else
-		{
-			$products = Product::where('visible', '=', true)->where('count', '>', 0)->orWhere('count', '=', -1)->paginate(5);
-		}
+		$products = Product::getAll();
 
 		return View::make('catalog.index')->with('products', $products);
 	}
@@ -35,7 +28,6 @@ class CatalogController extends BaseController {
 				foreach ($subcategories as $subcategory) {
 					
 					$categoryIds[] = $subcategory->id;
-
 				}
 
 				$products = Product::getByCategory($categoryIds);

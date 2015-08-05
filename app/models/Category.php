@@ -8,9 +8,9 @@ class Category extends Tree {
 
 	protected $fillable = array('title', 'url', 'parent_id', 'level', 'position');
 
-	public static function getAll()
+	public static function getAll($withRoot = true)
 	{
-		return Category::allNodes();
+		return Category::allNodes($withRoot);
 	}
 
 	public static function createRoot($title, $truncate = true)

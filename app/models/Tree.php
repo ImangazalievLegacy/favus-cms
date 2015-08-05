@@ -7,9 +7,16 @@ abstract class Tree extends Eloquent {
 	/**
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
-	public static function allNodes()
+	public static function allNodes($withRoot = true)
 	{
-		return self::orderBy('position')->get();
+		$nodes = self::orderBy('position')->get();
+
+		if (!$withRoot)
+		{
+			$nodes->shift();
+		}
+
+		return $nodes; 
 	}
 
 	/**

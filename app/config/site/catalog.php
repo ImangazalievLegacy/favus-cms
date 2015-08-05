@@ -4,7 +4,8 @@ return array(
 
 	'products' => array(
 
-		'show-empty' => false,
+		'show-empty' => true,
+		'per-page' => 9,
 
 	),
 );

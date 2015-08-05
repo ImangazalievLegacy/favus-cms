@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div id="wrap">
+		<!-- Header -->
+		<header>
+			<div class="container">
+				<div class="row upper">
+					<div class="wrap col-md-10 col-md-offset-1">
+						<div class="search">
+							<form action="/search" class="search-form">
+								<input type="submit" class="icon search-submit">
+								<input type="text" class="search-field" name="q" placeholder="Search">
+							</form>
+						</div>
+						<ul class="left-menu menu">
+							<li><a href="/signup">Sign up</a></li>
+							<li><a href="/login">Login</a></li>
+						</ul>
+						<ul class="minicart menu">
+							<li><a href="/cart">Cart</a></li>
+							<li class="checkout"><a href="/order/make">Check out</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row lower">
+					<div class="col-md-10 col-md-offset-1">
+						<div class="logo"><a href="#">Favus</a></div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Body -->
+		<section class="body container">
+			<div class="row">
+				<div class="sidebar col-md-3 col-md-offset-1">
+					<nav>
+						<a href="#" id="toggle-menu">
+							<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+							<span>Menu</span>
+						</a>
+						<ul class="side-nav">
+							<li class="has-submenu">
+								<a href="#">Item 1</a>
+								<ul>
+									<li><a href="#">Subitem 1</a></li>
+									<li><a href="#">Subitem 2</a></li>
+									<li><a href="#">Subitem 3</a></li>
+								</ul>
+							</li>
+							<li class="has-submenu">
+								<a href="#">Item 2</a>
+								<ul>
+									<li><a href="#">Subitem 1</a></li>
+									<li><a href="#">Subitem 2</a></li>
+									<li><a href="#">Subitem 3</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#">Item 3</a>
+							</li>
+							<li>
+								<a href="#">Item 4</a>
+							</li>
+							<li>
+								<a href="#">Item 5</a>
+							</li>
+						</ul>
+						<div id="social">
+							<a href="http://www.facebook.com/shopify" target="_blank" class="facebook "></a>
+							<a href="http://www.twitter.com/shopify" target="_blank" class="twitter "></a>
+							<a href="http://www.instagram.com/shopify" target="_blank" class="instagram "></a>
+							<a href="http://www.pinterest.com/shopify" target="_blank" class="pinterest "></a>
+							<a href="/blogs/news.atom" target="_blank" class="rss "></a>
+						</div>
+					</nav>
+				</div>
+				<div class="content col-md-7">
+					<div class="row">
+						<div class="col-md-12 card">
+							<div class="row">
+								<div class="col-md-6">
+									<img src="images/jeans.jpg" alt="" id="main-image">
+								</div>
+								<div class="col-md-4">
+									<div class="quick-add">
+										<h1 itemprop="name">Grey Jacket</h1>
+										<h2><span class="product-price">$100.00</span></h2>
+									</div>
+									<button>Add to cart</button>
+								</div>
+							</div>
+							<div class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum cupiditate, dignissimos quo. Dolore, omnis totam quibusdam voluptatibus cum, nulla dolores sunt iste? Sunt, nam illum animi, magni veniam adipisci non amet praesentium dolorem ipsam commodi optio dignissimos nisi assumenda voluptas similique esse vel fugiat rerum. Nulla culpa quia minima minus?</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Footer -->
+	<footer class="container">
+		<div class="row lower">
+			<div class="col-md-12 copyright">
+				Copyright © 2015, Favus by <a href="https://vk.com/muhammad_97">Imangazaliev Muhammad</a>.
+			</div>
+		</div>
+	</footer>
+	
+	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

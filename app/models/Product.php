@@ -8,16 +8,37 @@ class Product extends Eloquent {
 
 	protected $fillable = array('title', 'description', 'images', 'main_image_id', 'price', 'old_price', 'url', 'category_id', 'article_number', 'currency', 'type', 'count', 'visible');
 
+	public static function getAll()
+	{
+		return static::getByCategory(null);
+	}
+
 	public static function getByCategory($id)
 	{
-		if (is_array($id))
+		$query = Product::where('visible', '=', true);
+
+		if ($id !== null)
 		{
-			return Product::where('visible', '=', true)->whereIn('category_id', $id)->paginate(5);
+			if (is_array($id))
+			{
+				$query = $query->whereIn('category_id', $id);
+			}
+			else
+			{
+				$query = $query->where('category_id', '=', $id);
+			}
 		}
-		else
+
+		if (!Config::get('site/catalog.products.show-empty'))
 		{
-			return Product::where('visible', '=', true)->where('category_id', '=', $id)->paginate(5);
+			$query = $query->where('count', '>', 0)->orWhere('count', '=', -1);
 		}
+
+		$perPage = Config::get('site/catalog.products.per-page');
+		
+		$products = $query->paginate($perPage);
+
+		return $products;
 	}
 
 	public static function findByUrl($url)
@@ -228,11 +249,13 @@ class Product extends Eloquent {
 
 	public function getMainImage()
 	{
-		$mainImageId = $this->getMainImageId();
+		$id = $this->getMainImageId();
 
-		if ($this->hasImages())
+		$images = $this->getImages();
+
+		if (count($images) and array_key_exists($id, $images))
 		{
-			return $this->getImages()[$mainImageId];
+			return $images[$id];
 		}
 
 		return null;
